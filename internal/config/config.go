@@ -14,11 +14,14 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 )
 
 type Config struct {
 	Store    *redistore.RediStore
 	Database *pgxpool.Pool
+	OAuth2   *oauth2.Config
 }
 
 const (
@@ -114,11 +117,22 @@ func New() *Config {
 		sessionKey = []byte(sessionKeyStr)
 	}
 
+	oAuth2 := &oauth2.Config{
+		ClientID:     GetConfig("GOOGLE_CLIENT_ID"),
+		ClientSecret: GetConfig("GOOGLE_CLIENT_SECRET"),
+		Endpoint:     google.Endpoint,
+		Scopes: []string{
+			"https://www.googleapis.com/auth/userinfo.email",
+		},
+		RedirectURL: GetConfig("GOOGLE_REDIRECT_URL"),
+	}
+
 	redis := LoadRedis(sessionKey, env)
 	postgresql := LoadPostgreSQL(context.Background())
 
 	return &Config{
 		Store:    redis,
 		Database: postgresql,
+		OAuth2:   oAuth2,
 	}
 }
