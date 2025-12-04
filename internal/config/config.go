@@ -101,6 +101,22 @@ func LoadPostgreSQL(ctx context.Context) *pgxpool.Pool {
 	return pool
 }
 
+func (c *Config) Close() {
+	log.Printf("Cleaning up resources...\n")
+
+	if c.Database != nil {
+		c.Database.Close()
+		log.Printf("PostgreSQL pool closed.\n")
+	}
+
+	if c.Store != nil {
+		c.Store.Close()
+		log.Printf("RediStore closed.\n")
+	}
+
+	log.Printf("All resources cleaned up.\n")
+}
+
 func New() *Config {
 	var env string
 	err := godotenv.Load()

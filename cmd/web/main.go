@@ -13,7 +13,8 @@ import (
 )
 
 func main() {
-	r := router.New()
+	r, h := router.New()
+	defer h.Config.Store.Close()
 	srv := &http.Server{
 		Addr:    ":8080",
 		Handler: r,
