@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/boj/redistore"
+	"github.com/google/uuid"
 	"github.com/gorilla/sessions"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
@@ -120,6 +122,9 @@ func (c *Config) Close() {
 }
 
 func New() *Config {
+	gob.Register(uuid.UUID{})
+	gob.Register([]string{})
+
 	var env string
 	err := godotenv.Load()
 	if err != nil {

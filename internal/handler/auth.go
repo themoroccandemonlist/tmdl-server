@@ -5,7 +5,11 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"net/http"
+
+	"github.com/jackc/pgx/v5"
+	"github.com/themoroccandemonlist/tmdl-server/internal/repository"
 )
 
 func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
@@ -59,6 +63,15 @@ func (h *Handler) Callback(w http.ResponseWriter, r *http.Request) {
 	sub := oauth2User["sub"].(string)
 	session.Values["user_email"] = email
 	session.Values["user_sub"] = sub
+
+	user, err := repository.GetUserByEmailAndSub(ctx, h.Config.Database, email, sub)
+	if errors.Is(err, pgx.ErrNoRows) {
+		user, _ = repository.CreateUser(ctx, h.Config.Database, email, sub)
+	}
+	session.Values["user_id"] = user.ID
+	session.Values["user_roles"] = user.Roles
+	session.Values["user_is_banned"] = user.IsBanned
+	session.Values["user_is_deleted"] = user.IsDeleted
 	delete(session.Values, "state")
 	session.Save(r, w)
 
