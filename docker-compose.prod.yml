@@ -1,0 +1,64 @@
+services:
+  postgresql:
+    secrets:
+      - DB_PASSWORD
+      - DB_USER
+    environment:
+      POSTGRES_DB: themoroccandemonlist_db
+    networks:
+      - app-network
+
+  redis:
+    secrets:
+      - REDIS_PASSWORD
+    command: sh -c 'redis-server --requirepass "$$(cat /run/secrets/REDIS_PASSWORD)"'
+    networks:
+      - app-network
+
+  app:
+    image: themoroccandemonlist:latest
+    secrets:
+      - DB_USER
+      - DB_PASSWORD
+      - REDIS_PASSWORD
+      - GOOGLE_CLIENT_ID
+      - GOOGLE_CLIENT_SECRET
+      - GOOGLE_REDIRECT_URL
+      - SESSION_KEY
+    environment:
+      DB_HOST: postgresql
+      DB_PORT: 5432
+      DB_NAME: themoroccandemonlist_db
+      REDIS_ADDRESS: redis:6379
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: host
+    depends_on:
+      - postgresql
+      - redis
+    networks:
+      - app-network
+    deploy:
+      replicas: 1
+
+networks:
+  app-network:
+    driver: overlay
+
+secrets:
+  DB_USER:
+    external: true
+  DB_PASSWORD:
+    external: true
+  REDIS_PASSWORD:
+    external: true
+  GOOGLE_CLIENT_ID:
+    external: true
+  GOOGLE_CLIENT_SECRET:
+    external: true
+  GOOGLE_REDIRECT_URL:
+    external: true
+  SESSION_KEY:
+    external: true
