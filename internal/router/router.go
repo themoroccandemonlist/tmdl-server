@@ -23,5 +23,9 @@ func New() (*mux.Router, *handler.Handler) {
 	r.Use(middleware.ContentSecurityPolicy)
 	r.Use(csrf.Protect(h.Config.SessionKey, csrf.Secure(secure)))
 
+	r.HandleFunc("/login", h.Login).Methods("GET")
+	r.HandleFunc("/callback", h.Callback).Methods("GET")
+	r.HandleFunc("/logout", h.Logout).Methods("GET")
+
 	return r, h
 }
