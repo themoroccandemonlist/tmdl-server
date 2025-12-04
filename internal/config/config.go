@@ -19,9 +19,11 @@ import (
 )
 
 type Config struct {
-	Store    *redistore.RediStore
-	Database *pgxpool.Pool
-	OAuth2   *oauth2.Config
+	Store       *redistore.RediStore
+	Database    *pgxpool.Pool
+	OAuth2      *oauth2.Config
+	SessionKey  []byte
+	Environment string
 }
 
 const (
@@ -147,8 +149,10 @@ func New() *Config {
 	postgresql := LoadPostgreSQL(context.Background())
 
 	return &Config{
-		Store:    redis,
-		Database: postgresql,
-		OAuth2:   oAuth2,
+		Store:       redis,
+		Database:    postgresql,
+		OAuth2:      oAuth2,
+		SessionKey:  sessionKey,
+		Environment: env,
 	}
 }

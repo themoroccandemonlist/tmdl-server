@@ -4,6 +4,7 @@ go 1.25.4
 
 require (
 	github.com/boj/redistore v1.4.1
+	github.com/gorilla/csrf v1.7.3
 	github.com/gorilla/mux v1.8.1
 	github.com/gorilla/sessions v1.4.0
 	github.com/jackc/pgx/v5 v5.7.6
