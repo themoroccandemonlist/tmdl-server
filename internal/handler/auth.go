@@ -8,6 +8,7 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/themoroccandemonlist/tmdl-server/internal/repository"
 )
@@ -67,13 +68,19 @@ func (h *Handler) Callback(w http.ResponseWriter, r *http.Request) {
 	session.Values["user_sub"] = sub
 
 	user, err := repository.GetUserByEmailAndSub(ctx, h.Config.Database, email, sub)
+	var playerID *uuid.UUID
 	if errors.Is(err, pgx.ErrNoRows) {
 		user, _ = repository.CreateUser(ctx, h.Config.Database, email, sub)
+		playerID, _ = repository.CreatePlayer(context.Background(), h.Config.Database, user.ID)
+	} else {
+		playerID, _ = repository.GetPlayerIDByUserID(context.Background(), h.Config.Database, user.ID)
 	}
+
 	session.Values["user_id"] = user.ID
 	session.Values["user_roles"] = user.Roles
 	session.Values["user_is_banned"] = user.IsBanned
 	session.Values["user_is_deleted"] = user.IsDeleted
+	session.Values["player_id"] = playerID
 	session.Save(r, w)
 
 	http.Redirect(w, r, "/profile", http.StatusSeeOther)
