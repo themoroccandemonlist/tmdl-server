@@ -1,6 +1,8 @@
 package config
 
 import (
+	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -10,11 +12,13 @@ import (
 
 	"github.com/boj/redistore"
 	"github.com/gorilla/sessions"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
 )
 
 type Config struct {
-	Store *redistore.RediStore
+	Store    *redistore.RediStore
+	Database *pgxpool.Pool
 }
 
 const (
@@ -70,8 +74,31 @@ func LoadRedis(sessionKey []byte, env string) *redistore.RediStore {
 	return store
 }
 
-func New() *Config {
+func LoadPostgreSQL(ctx context.Context) *pgxpool.Pool {
+	dbUser := GetConfig("DB_USER")
+	dbPassword := GetConfig("DB_PASSWORD")
+	dbHost := GetConfig("DB_HOST")
+	dbPort := GetConfig("DB_PORT")
+	dbName := GetConfig("DB_NAME")
+	ssl := GetConfig("SSL")
 
+	var sslMode string
+	if ssl == "true" {
+		sslMode = "enable"
+	} else {
+		sslMode = "disable"
+	}
+
+	dbUrl := fmt.Sprintf("postgresql://%v:%v@%v:%v/%v?sslmode=%v", dbUser, dbPassword, dbHost, dbPort, dbName, sslMode)
+
+	pool, err := pgxpool.New(ctx, dbUrl)
+	if err != nil {
+		log.Fatal("Unable to create a connection pool: ", err)
+	}
+	return pool
+}
+
+func New() *Config {
 	var env string
 	err := godotenv.Load()
 	if err != nil {
@@ -88,8 +115,10 @@ func New() *Config {
 	}
 
 	redis := LoadRedis(sessionKey, env)
+	postgresql := LoadPostgreSQL(context.Background())
 
 	return &Config{
-		Store: redis,
+		Store:    redis,
+		Database: postgresql,
 	}
 }
