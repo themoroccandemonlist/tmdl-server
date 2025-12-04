@@ -40,6 +40,8 @@ func (h *Handler) Callback(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid state parameter.", http.StatusInternalServerError)
 		return
 	}
+	delete(session.Values, "state")
+	session.Save(r, w)
 
 	code := r.URL.Query().Get("code")
 	t, err := h.Config.OAuth2.Exchange(ctx, code)
@@ -72,7 +74,6 @@ func (h *Handler) Callback(w http.ResponseWriter, r *http.Request) {
 	session.Values["user_roles"] = user.Roles
 	session.Values["user_is_banned"] = user.IsBanned
 	session.Values["user_is_deleted"] = user.IsDeleted
-	delete(session.Values, "state")
 	session.Save(r, w)
 
 	http.Redirect(w, r, "/profile", http.StatusSeeOther)
