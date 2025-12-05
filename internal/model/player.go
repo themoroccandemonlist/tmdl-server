@@ -8,7 +8,7 @@ import (
 type Player struct {
 	ID               uuid.UUID       `json:"id"`
 	UserID           uuid.UUID       `json:"userId"`
-	Username         string          `json:"username"`
+	Username         *string         `json:"username"`
 	ClassicPoints    decimal.Decimal `json:"classicPoints"`
 	PlatformerPoints decimal.Decimal `json:"platformerPoints"`
 	Avatar           *string         `json:"avatar"`
