@@ -19,8 +19,10 @@ func RequireProfile(h *handler.Handler, requiredRoles ...string) func(http.Handl
 			isRegionIDValid := regionID != uuid.Nil
 
 			if !isUsernameValid || !isRegionIDValid {
-				http.Redirect(w, r, "/profile/setup", http.StatusSeeOther)
-				return
+				if r.URL.Path != "/profile-setup" {
+					http.Redirect(w, r, "/profile-setup", http.StatusSeeOther)
+					return
+				}
 			}
 
 			next.ServeHTTP(w, r)
