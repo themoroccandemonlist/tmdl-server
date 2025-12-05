@@ -3,6 +3,7 @@ package middleware
 import (
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/themoroccandemonlist/tmdl-server/internal/handler"
 )
 
@@ -11,11 +12,11 @@ func RequireProfile(h *handler.Handler, requiredRoles ...string) func(http.Handl
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			session, _ := h.Config.Store.Get(r, "session")
 
-			username, ok := session.Values["player_username"].(string)
-			isUsernameValid := ok && username != ""
+			username, _ := session.Values["player_username"].(string)
+			isUsernameValid := username != ""
 
-			regionID, ok := session.Values["player_region_id"].(string)
-			isRegionIDValid := ok && regionID != ""
+			regionID, _ := session.Values["player_region_id"].(uuid.UUID)
+			isRegionIDValid := regionID != uuid.Nil
 
 			if !isUsernameValid || !isRegionIDValid {
 				http.Redirect(w, r, "/profile/setup", http.StatusSeeOther)
