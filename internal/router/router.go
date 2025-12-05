@@ -1,6 +1,8 @@
 package router
 
 import (
+	"net/http"
+
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
 	"github.com/themoroccandemonlist/tmdl-server/internal/config"
@@ -19,6 +21,7 @@ func New() (*mux.Router, *handler.Handler) {
 	}
 
 	r := mux.NewRouter()
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	r.Use(middleware.ContentSecurityPolicy)
 	r.Use(csrf.Protect(h.Config.SessionKey, csrf.Secure(secure)))
