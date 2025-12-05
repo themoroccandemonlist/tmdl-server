@@ -24,6 +24,7 @@ func New() (*mux.Router, *handler.Handler) {
 	r.Use(csrf.Protect(h.Config.SessionKey, csrf.Secure(secure)))
 
 	auth := r.PathPrefix("/").Subrouter()
+	auth.Use(middleware.RequireRole(h, "USER"))
 	auth.Use(middleware.RequireProfile(h))
 
 	r.HandleFunc("/login", h.Login).Methods("GET")
