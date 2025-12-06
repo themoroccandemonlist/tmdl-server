@@ -37,7 +37,9 @@ func New() (*mux.Router, *handler.Handler) {
 	r.HandleFunc("/callback", h.Callback).Methods("GET")
 	r.HandleFunc("/logout", h.Logout).Methods("GET")
 
-	auth.HandleFunc("/profile", nil).Methods("GET")
+	// auth.HandleFunc("/profile", nil).Methods("GET")
+	auth.HandleFunc("/profile-setup", h.ProfileSetup).Methods("GET")
+	auth.HandleFunc("/profile-setup", h.ProfileSetupSubmit).Methods("PATCH")
 
 	return r, h
 }

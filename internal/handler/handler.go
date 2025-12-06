@@ -29,3 +29,7 @@ func composeTemplate(templateNames ...string) *template.Template {
 	}
 	return template.Must(tmpl.ParseFS(templates.TemplatesFS, paths...))
 }
+
+var (
+	TMPL_PROFILE_SETUP = composeTemplate("profile-setup")
+)

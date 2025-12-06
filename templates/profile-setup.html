@@ -1,0 +1,15 @@
+{{define "body"}}
+<form hx-patch="/profile-setup" hx-target="#response">
+    {{ .CSRFField }}
+
+    <input type="text" name="username" placeholder="username" required />
+    <select name="region" required>
+        <option value="" disabled selected>Select your region</option>
+        {{range .Regions}}
+        <option value="{{.ID}}">{{.Name}}</option>
+        {{end}}
+    </select>
+    <button type="submit">Submit</button>
+</form>
+<div id="response"></div>
+{{end}}

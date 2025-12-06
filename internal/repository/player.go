@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	"github.com/google/uuid"
@@ -40,4 +41,22 @@ func CreatePlayer(ctx context.Context, pool *pgxpool.Pool, userID uuid.UUID) (*m
 		return nil, err
 	}
 	return &player, nil
+}
+
+func UpdateUsernameAndRegion(ctx context.Context, pool *pgxpool.Pool, playerID uuid.UUID, username string, regionID uuid.UUID) error {
+	query := `
+		UPDATE players
+		SET username = $2, region_id = $3
+		WHERE id = $1
+	`
+
+	commandTag, err := pool.Exec(ctx, query, playerID, username, regionID)
+	if err != nil {
+		log.Printf("Unable to insert resource: %v", err)
+		return err
+	}
+	if commandTag.RowsAffected() != 1 {
+		return errors.New("No row found to update")
+	}
+	return nil
 }
