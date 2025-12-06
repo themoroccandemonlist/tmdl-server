@@ -14,17 +14,20 @@ func New() (*mux.Router, *handler.Handler) {
 	h := handler.New()
 
 	var secure bool
+	var trustedOrigins []string
 	if h.Config.Environment == config.Production {
 		secure = true
+		trustedOrigins = append(trustedOrigins, "https://themoroccandemonlist.com", "https://www.themoroccandemonlist.com")
 	} else {
 		secure = false
+		trustedOrigins = append(trustedOrigins, "localhost:8080", "127.0.0.1:8080")
 	}
 
 	r := mux.NewRouter()
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	r.Use(middleware.ContentSecurityPolicy)
-	r.Use(csrf.Protect(h.Config.SessionKey, csrf.Secure(secure)))
+	r.Use(csrf.Protect(h.Config.SessionKey, csrf.Secure(secure), csrf.TrustedOrigins(trustedOrigins)))
 
 	auth := r.PathPrefix("/").Subrouter()
 	auth.Use(middleware.RequireRole(h, "USER"))
