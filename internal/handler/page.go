@@ -47,8 +47,8 @@ func (h *Handler) ProfileSetupSubmit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	username := r.FormValue("username")
-	regionID, _ := uuid.Parse(r.FormValue("region"))
+	username := h.Config.Sanitizer.Sanitize(r.FormValue("username"))
+	regionID, _ := uuid.Parse(h.Config.Sanitizer.Sanitize(r.FormValue("region")))
 
 	err := repository.UpdateUsernameAndRegion(context.Background(), h.Config.Database, playerID, username, regionID)
 	if err != nil {

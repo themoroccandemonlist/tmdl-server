@@ -16,6 +16,7 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
+	"github.com/microcosm-cc/bluemonday"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
@@ -26,6 +27,7 @@ type Config struct {
 	OAuth2      *oauth2.Config
 	SessionKey  []byte
 	Environment string
+	Sanitizer   *bluemonday.Policy
 }
 
 const (
@@ -125,6 +127,8 @@ func New() *Config {
 	gob.Register(uuid.UUID{})
 	gob.Register([]string{})
 
+	p := bluemonday.StrictPolicy()
+
 	var env string
 	err := godotenv.Load()
 	if err != nil {
@@ -159,5 +163,6 @@ func New() *Config {
 		OAuth2:      oAuth2,
 		SessionKey:  sessionKey,
 		Environment: env,
+		Sanitizer:   p,
 	}
 }
