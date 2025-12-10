@@ -2,14 +2,13 @@ package handler
 
 import (
 	"context"
-	"html/template"
 	"log"
 	"net/http"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/csrf"
-	"github.com/themoroccandemonlist/tmdl-server/internal/model"
 	"github.com/themoroccandemonlist/tmdl-server/internal/repository"
+	"github.com/themoroccandemonlist/tmdl-server/views"
 )
 
 func (h *Handler) ProfileSetup(w http.ResponseWriter, r *http.Request) {
@@ -19,15 +18,9 @@ func (h *Handler) ProfileSetup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := struct {
-		CSRFField template.HTML
-		Regions   []*model.Region
-	}{
-		CSRFField: csrf.TemplateField(r),
-		Regions:   regions,
-	}
+	csrfToken := csrf.TemplateField(r)
 
-	err = TMPL_PROFILE_SETUP.ExecuteTemplate(w, "layout", data)
+	err = views.ProfileSetup(string(csrfToken), regions).Render(context.Background(), w)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
