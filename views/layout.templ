@@ -1,19 +1,30 @@
 package views
 
+import "github.com/themoroccandemonlist/tmdl-server/views/components"
+
 templ Layout(title string) {
 	<!DOCTYPE html>
-	<html lang="en">
+	<html lang="en" data-theme="dark">
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<title>{ title }</title>
+			<link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico">
+			<script src="/static/js/htmx.min.js" defer></script>
+			<link
+				href="https://cdn.jsdelivr.net/npm/daisyui@5.5.14"
+				integrity="sha384-m9/nLMenWaNHWRtE6uqj1Pu5VfS4S/XyyC/AlFTPBBoG6WCfVC+kpGAhG5DDg/lJ"
+				rel="stylesheet"
+				crossorigin="anonymous"
+				type="text/css" />
+			<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
 			<link rel="stylesheet" href="/static/css/output.css"/>
+			<title>{ title }</title>
 		</head>
 		<body>
+			@components.NavigationBar()
 			<main class="container">
 				{ children... }
 			</main>
-			<script src="/static/js/htmx.min.js"></script>
 		</body>
 	</html>
 }
