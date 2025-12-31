@@ -8,8 +8,16 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/csrf"
 	"github.com/themoroccandemonlist/tmdl-server/internal/repository"
-	"github.com/themoroccandemonlist/tmdl-server/views"
+	"github.com/themoroccandemonlist/tmdl-server/internal/views"
 )
+
+func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
+	err := views.Home().Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
 
 func (h *Handler) ProfileSetup(w http.ResponseWriter, r *http.Request) {
 	regions, err := repository.GetAllRegionIDsAndNames(context.Background(), h.Config.Database)

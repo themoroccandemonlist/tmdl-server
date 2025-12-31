@@ -28,11 +28,13 @@ func New() (*mux.Router, *handler.Handler) {
 
 	r.Use(middleware.ContentSecurityPolicy)
 	r.Use(csrf.Protect(h.Config.SessionKey, csrf.Secure(secure), csrf.TrustedOrigins(trustedOrigins)))
+	r.Use(middleware.Session(h.Config.Store))
 
 	auth := r.PathPrefix("/").Subrouter()
 	auth.Use(middleware.RequireRole(h, "USER"))
 	auth.Use(middleware.RequireProfile(h))
 
+	r.HandleFunc("/", h.Home).Methods("GET")
 	r.HandleFunc("/login", h.Login).Methods("GET")
 	r.HandleFunc("/callback", h.Callback).Methods("GET")
 	r.HandleFunc("/logout", h.Logout).Methods("GET")

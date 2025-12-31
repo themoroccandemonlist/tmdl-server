@@ -10,15 +10,15 @@ import (
 	"github.com/themoroccandemonlist/tmdl-server/internal/model"
 )
 
-func GetPlayerIDAndNameByUserID(ctx context.Context, pool *pgxpool.Pool, userID uuid.UUID) (*model.Player, error) {
+func GetPlayerByUserID(ctx context.Context, pool *pgxpool.Pool, userID uuid.UUID) (*model.Player, error) {
 	query := `
-		SELECT id, username, region_id
+		SELECT id, username, avatar, region_id
 		FROM players
 		WHERE user_id = $1
 	`
 
 	var player model.Player
-	err := pool.QueryRow(ctx, query, userID).Scan(&player.ID, &player.Username, &player.RegionID)
+	err := pool.QueryRow(ctx, query, userID).Scan(&player.ID, &player.Username, &player.Avatar, &player.RegionID)
 	if err != nil {
 		log.Printf("Unable to fetch resource: %v", err)
 		return nil, err

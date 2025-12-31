@@ -1,6 +1,6 @@
 package views
 
-import "github.com/themoroccandemonlist/tmdl-server/views/components"
+import "github.com/themoroccandemonlist/tmdl-server/internal/views/components"
 
 templ Layout(title string) {
 	<!DOCTYPE html>
@@ -21,7 +21,7 @@ templ Layout(title string) {
 			<title>{ title }</title>
 		</head>
 		<body>
-			@components.NavigationBar()
+			@components.NavBar()
 			<main class="container">
 				{ children... }
 			</main>

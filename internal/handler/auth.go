@@ -74,7 +74,7 @@ func (h *Handler) Callback(w http.ResponseWriter, r *http.Request) {
 		user, _ = repository.CreateUser(ctx, h.Config.Database, email, sub)
 		player, _ = repository.CreatePlayer(context.Background(), h.Config.Database, user.ID)
 	} else {
-		player, _ = repository.GetPlayerIDAndNameByUserID(context.Background(), h.Config.Database, user.ID)
+		player, _ = repository.GetPlayerByUserID(context.Background(), h.Config.Database, user.ID)
 	}
 
 	session.Values["user_id"] = user.ID
@@ -82,19 +82,25 @@ func (h *Handler) Callback(w http.ResponseWriter, r *http.Request) {
 	session.Values["user_is_banned"] = user.IsBanned
 	session.Values["user_is_deleted"] = user.IsDeleted
 	session.Values["player_id"] = player.ID
+	session.Values["player_avatar"] = player.Avatar
 	if player.Username == nil {
 		session.Values["player_username"] = ""
 	} else {
 		session.Values["player_username"] = player.Username
 	}
-	if player.Username == nil {
+	if player.RegionID == nil {
 		session.Values["player_region_id"] = uuid.Nil
 	} else {
 		session.Values["player_region_id"] = player.RegionID
 	}
+	if player.Avatar == nil {
+		session.Values["player_avatar"] = ""
+	} else {
+		session.Values["player_avatar"] = player.Avatar
+	}
 	err = session.Save(r, w)
 
-	http.Redirect(w, r, "/profile", http.StatusSeeOther)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) {
