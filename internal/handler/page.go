@@ -28,7 +28,7 @@ func (h *Handler) ProfileSetup(w http.ResponseWriter, r *http.Request) {
 
 	csrfToken := csrf.TemplateField(r)
 
-	err = views.ProfileSetup(string(csrfToken), regions).Render(context.Background(), w)
+	err = views.ProfileSetup(string(csrfToken), regions).Render(r.Context(), w)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
