@@ -8,21 +8,22 @@ templ Layout(title string) {
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico">
+			<link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico"/>
 			<script src="/static/js/htmx.min.js" defer></script>
 			<link
 				href="https://cdn.jsdelivr.net/npm/daisyui@5.5.14"
 				integrity="sha384-m9/nLMenWaNHWRtE6uqj1Pu5VfS4S/XyyC/AlFTPBBoG6WCfVC+kpGAhG5DDg/lJ"
 				rel="stylesheet"
 				crossorigin="anonymous"
-				type="text/css" />
-			<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+				type="text/css"
+			/>
+			<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css"/>
 			<link rel="stylesheet" href="/static/css/output.css"/>
 			<title>{ title }</title>
 		</head>
-		<body>
+		<body class="min-h-dvh flex flex-col">
 			@components.NavBar()
-			<main class="container">
+			<main class="flex-1 w-full flex">
 				{ children... }
 			</main>
 		</body>

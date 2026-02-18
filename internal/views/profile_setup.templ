@@ -3,53 +3,32 @@ package views
 import "github.com/themoroccandemonlist/tmdl-server/internal/model"
 
 templ ProfileSetup(csrfToken string, regions []*model.Region) {
-    <!DOCTYPE html>
-    <html lang="en" data-theme="dark">
-        <head>
-            <meta charset="UTF-8"/>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-            <link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico"/>
-            <script src="/static/js/htmx.min.js" defer></script>
-            <link
-                href="https://cdn.jsdelivr.net/npm/daisyui@5.5.14"
-                integrity="sha384-m9/nLMenWaNHWRtE6uqj1Pu5VfS4S/XyyC/AlFTPBBoG6WCfVC+kpGAhG5DDg/lJ"
-                rel="stylesheet"
-                crossorigin="anonymous"
-                type="text/css"
-            />
-            <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css"/>
-            <link rel="stylesheet" href="/static/css/output.css"/>
-            <title>TMDL - Profile Setup</title>
-        </head>
-        <body class="flex items-center justify-center min-h-dvh">
-            <main class="container max-w-md">
-                <form hx-patch="/profile-setup" hx-target="#response">
-                    <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-6">
-                        <legend class="fieldset-legend text-lg font-semibold">Profile Setup</legend>
-                        
-                        @templ.Raw(csrfToken)
-                        
-                        <label class="label">
-                            <span class="label-text">Username</span>
-                        </label>
-                        <input type="text" name="username" placeholder="Username" class="input input-bordered w-full" required/>
-                        
-                        <label class="label mt-4">
-                            <span class="label-text">Region</span>
-                        </label>
-                        <select name="region" class="select select-bordered w-full" required>
-                            <option disabled selected>Select your region</option>
-                            for _, region := range regions {
-                                <option value={ region.ID.String() }>{ region.Name }</option>
-                            }
-                        </select>
-                        
-                        <button class="btn btn-neutral w-full mt-6" type="submit">Complete Setup</button>
+	@Layout("Profile Setup") {
+		<div class="flex-1 w-full px-4 flex items-center justify-center">
+			<div class="w-full max-w-md">
+				<form hx-patch="/profile-setup" hx-target="#response">
+					<fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-6">
+						<legend class="fieldset-legend text-lg font-semibold">Profile Setup</legend>
+						@templ.Raw(csrfToken)
+						<label class="label">
+							<span class="label-text">Username</span>
+						</label>
+						<input type="text" name="username" placeholder="Username" class="input input-bordered w-full" required/>
+						<label class="label mt-4">
+							<span class="label-text">Region</span>
+						</label>
+						<select name="region" class="select select-bordered w-full" required>
+							<option disabled selected>Select your region</option>
+							for _, region := range regions {
+								<option value={ region.ID.String() }>{ region.Name }</option>
+							}
+						</select>
+						<button class="btn btn-neutral w-full mt-6" type="submit">Complete Setup</button>
 						<p class="label">You can edit these later on from your profile settings.</p>
-                    </fieldset>
-                </form>
-                <div id="response" class="mt-4"></div>
-            </main>
-        </body>
-    </html>
+					</fieldset>
+				</form>
+				<div id="response" class="mt-4"></div>
+			</div>
+		</div>
+	}
 }
