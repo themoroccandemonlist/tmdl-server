@@ -14,9 +14,9 @@ templ Layout(title string) {
 			<link rel="stylesheet" href="/static/css/output.css"/>
 			<title>{ title }</title>
 		</head>
-		<body class="min-h-dvh flex flex-col">
+		<body x-data="{ path: window.location.pathname }" class="min-h-dvh flex flex-col" :class="path === '/' ? 'bg-[url(/static/assets/background.png)] bg-no-repeat bg-[center_top]' : 'bg-none'">
 			@components.Navbar()
-			<main class="flex-1 w-full flex">
+			<main class="flex justify-center items-center w-screen">
 				{ children... }
 			</main>
 		</body>
