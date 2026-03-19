@@ -4,11 +4,12 @@ import "github.com/themoroccandemonlist/tmdl-server/internal/types"
 import "github.com/google/uuid"
 
 templ Navbar() {
-	<div class="inline-flex justify-between px-16 py-6">
-		<a class="flex justify-center items-center cursor-pointer" href="/">
+	<div class="relative inline-flex justify-between px-16 py-6 sticky top-0">
+		<div class="absolute inset-0 backdrop-blur-[24px] [mask-image:linear-gradient(to_bottom,black,transparent)] pointer-events-none"></div>
+		<a class="relative z-10 flex justify-center items-center cursor-pointer" href="/">
 			<img src="/static/assets/navbar-logo.png" alt="The Moroccan Demonlist's Logo"/>
 		</a>
-		<div x-data="{ path: window.location.pathname }" class="inline-flex gap-4 p-1.5 rounded-full border border-[#281818] bg-[#1A0A0A]">
+		<div x-data="{ path: window.location.pathname }" class="relative z-10 inline-flex gap-4 p-1.5 rounded-full border border-[#281818] bg-[#1A0A0A]">
 			<a class="inline-flex gap-1 p-2 rounded-full cursor-pointer" :class="path === '/' ? 'bg-[#FF2E2C1F]' : ''" href="/">
 				<div class="flex justify-center items-center" :class="path === '/' ? 'text-[#FF2E2C]' : 'text-[#D0CFD3]'">
 					@List(16, 16)
@@ -51,7 +52,7 @@ templ Navbar() {
 			</a>
 		</div>
 		if session, _ := ctx.Value("session").(types.SessionData) ; session.PlayerID != uuid.Nil {
-			<div class="flex justify-end w-[175px]">
+			<div class="relative z-10 flex justify-end w-[175px]">
 				<div class="flex justify-center items-center px-4">
 					if session.PlayerAvatar != "" {
 						<img src={ session.PlayerAvatar } alt={ session.PlayerUsername + "'s avatar" }/>
@@ -63,7 +64,7 @@ templ Navbar() {
 				</div>
 			</div>
 		} else {
-			<div class="flex justify-end w-[175px]">
+			<div class="relative z-10 flex justify-end w-[175px]">
 				<a class="inline-flex gap-1 pl-4.5 pr-5.5 py-3 bg-[#1A0A0A] border border-[#FFFFFF1A] rounded-3xl cursor-pointer" href="/login">
 					<div class="flex justify-center items-center text-[#D0CFD3]">
 						@Chart(20, 20)
