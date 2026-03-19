@@ -51,24 +51,28 @@ templ Navbar() {
 			</a>
 		</div>
 		if session, _ := ctx.Value("session").(types.SessionData) ; session.PlayerID != uuid.Nil {
-			<div class="flex justify-center items-center px-4">
-				if session.PlayerAvatar != "" {
-					<img src={ session.PlayerAvatar } alt={ session.PlayerUsername + "'s avatar" }/>
-				} else {
-					<div class="text-[#D0CFD3] w-10 h-10">
-                        <img src="/static/assets/default-pfp.jpg" class="rounded-full"/>
-					</div>
-				}
+			<div class="flex justify-end w-[175px]">
+				<div class="flex justify-center items-center px-4">
+					if session.PlayerAvatar != "" {
+						<img src={ session.PlayerAvatar } alt={ session.PlayerUsername + "'s avatar" }/>
+					} else {
+						<div class="text-[#D0CFD3] w-10 h-10">
+							<img src="/static/assets/default-pfp.jpg" class="rounded-full"/>
+						</div>
+					}
+				</div>
 			</div>
 		} else {
-			<a class="inline-flex gap-1 pl-4.5 pr-5.5 py-3 bg-[#1A0A0A] border border-[#FFFFFF1A] rounded-3xl cursor-pointer" href="/login">
-				<div class="flex justify-center items-center text-[#D0CFD3]">
-					@Chart(20, 20)
-				</div>
-				<div class="flex justify-center items-center text-base font-medium text-[#CFCCCC]">
-					Login
-				</div>
-			</a>
+			<div class="flex justify-end w-[175px]">
+				<a class="inline-flex gap-1 pl-4.5 pr-5.5 py-3 bg-[#1A0A0A] border border-[#FFFFFF1A] rounded-3xl cursor-pointer" href="/login">
+					<div class="flex justify-center items-center text-[#D0CFD3]">
+						@Chart(20, 20)
+					</div>
+					<div class="flex justify-center items-center text-base font-medium text-[#CFCCCC]">
+						Login
+					</div>
+				</a>
+			</div>
 		}
 	</div>
 }
