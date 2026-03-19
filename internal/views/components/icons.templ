@@ -1,0 +1,62 @@
+package components
+
+import "fmt"
+
+templ Trophy(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy">
+		<path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"></path>
+		<path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"></path>
+		<path d="M18 9h1.5a1 1 0 0 0 0-5H18"></path>
+		<path d="M4 22h16"></path>
+		<path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"></path>
+		<path d="M6 9H4.5a1 1 0 0 1 0-5H6"></path>
+	</svg>
+}
+
+templ List(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list-icon lucide-list">
+		<path d="M3 5h.01"></path>
+		<path d="M3 12h.01"></path>
+		<path d="M3 19h.01"></path>
+		<path d="M8 5h13"></path>
+		<path d="M8 12h13"></path>
+		<path d="M8 19h13"></path>
+	</svg>
+}
+
+templ Package(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-icon lucide-package">
+		<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path>
+		<path d="M12 22V12"></path>
+		<polyline points="3.29 7 12 12 20.71 7"></polyline>
+		<path d="m7.5 4.27 9 5.15"></path>
+	</svg>
+}
+
+templ Dices(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dices-icon lucide-dices">
+		<rect width="12" height="12" x="2" y="10" rx="2" ry="2"></rect>
+		<path d="m17.92 14 3.5-3.5a2.24 2.24 0 0 0 0-3l-5-4.92a2.24 2.24 0 0 0-3 0L10 6"></path>
+		<path d="M6 18h.01"></path>
+		<path d="M10 14h.01"></path>
+		<path d="M15 6h.01"></path>
+		<path d="M18 9h.01"></path>
+	</svg>
+}
+
+templ Chart(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-column-icon lucide-chart-column">
+		<path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
+		<path d="M18 17V9"></path>
+		<path d="M13 17V5"></path>
+		<path d="M8 17v-3"></path>
+	</svg>
+}
+
+templ Logout(width int, height int) {
+	<svg width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M12.7001 18.5588H12.5918C8.89175 18.5588 7.10844 17.1004 6.8001 13.8338C6.76677 13.4921 7.01677 13.1838 7.36677 13.1504C7.70844 13.1171 8.01677 13.3754 8.0501 13.7171C8.29177 16.3338 9.52509 17.3088 12.6001 17.3088H12.7084C16.1001 17.3088 17.3001 16.1088 17.3001 12.7171V7.28373C17.3001 3.89206 16.1001 2.69206 12.7084 2.69206H12.6001C9.50842 2.69206 8.2751 3.68373 8.0501 6.35039C8.00844 6.69206 7.7251 6.95039 7.36677 6.91706C7.01677 6.89206 6.76676 6.58373 6.79176 6.24206C7.07509 2.92539 8.86675 1.44206 12.5918 1.44206H12.7001C16.7918 1.44206 18.5418 3.19206 18.5418 7.28373V12.7171C18.5418 16.8088 16.7918 18.5588 12.7001 18.5588Z" fill="#CFCCCC"></path>
+		<path d="M12.4001 10.625H1.66675C1.32508 10.625 1.04175 10.3417 1.04175 10C1.04175 9.65833 1.32508 9.375 1.66675 9.375H12.4001C12.7417 9.375 13.0251 9.65833 13.0251 10C13.0251 10.3417 12.7501 10.625 12.4001 10.625Z" fill="#CFCCCC"></path>
+		<path d="M10.5419 13.4165C10.3835 13.4165 10.2252 13.3582 10.1002 13.2332C9.85853 12.9915 9.85853 12.5915 10.1002 12.3498L12.4502 9.99984L10.1002 7.64987C9.85853 7.4082 9.85853 7.0082 10.1002 6.76654C10.3419 6.52487 10.7419 6.52487 10.9835 6.76654L13.7752 9.55817C14.0169 9.79984 14.0169 10.1998 13.7752 10.4415L10.9835 13.2332C10.8585 13.3582 10.7002 13.4165 10.5419 13.4165Z" fill="#CFCCCC"></path>
+	</svg>
+}
