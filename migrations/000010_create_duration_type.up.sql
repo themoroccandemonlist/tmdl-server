@@ -1,0 +1,1 @@
+CREATE TYPE duration AS ENUM ('TINY', 'SHORT', 'MEDIUM', 'LONG', 'XL');
