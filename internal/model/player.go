@@ -12,6 +12,7 @@ type Player struct {
 	ClassicPoints    decimal.Decimal
 	PlatformerPoints decimal.Decimal
 	Avatar           *string
+	Region           *Region
 	RegionID         *uuid.UUID
 	Discord          *string
 	YouTube          *string
