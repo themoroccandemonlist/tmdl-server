@@ -4,15 +4,85 @@ import "github.com/themoroccandemonlist/tmdl-server/internal/views/components"
 
 templ Home() {
 	@Layout("Home") {
-		<div class="flex flex-col gap-8 justify-center py-42">
-			<a class="flex justify-center items-center cursor-pointer" href="/">
-				<img src="/static/assets/hero-logo.png" alt="The Moroccan Demonlist's Logo"/>
-			</a>
-			<div class="inline-flex gap-2 pl-4 pr-2.5 py-2 bg-[#1A0A0A] border border-[#281818] rounded-[40px] text-[#EEEEEE] w-auto h-12">
-				<div class="flex justify-center items-center">
-					@components.Search(24, 24)
+		<div class="w-[1440px] flex flex-col">
+			<div class="flex flex-col items-center gap-8 justify-center py-42">
+				<div class="flex flex-col gap-8 w-fit">
+					<a class="flex justify-center items-center cursor-pointer" href="/">
+						<img src="/static/assets/hero-logo.png" alt="The Moroccan Demonlist's Logo"/>
+					</a>
+					<div class="flex gap-2 pl-4 pr-2.5 py-2 bg-[#1A0A0A] border border-[#281818] rounded-[40px] text-[#EEEEEE] w-full h-12">
+						<div class="flex justify-center items-center">
+							@components.Search(24, 24)
+						</div>
+						<input type="text" placeholder="Search for a level or publisher" class="w-full border-0 outline-none"/>
+					</div>
 				</div>
-				<input type="text" placeholder="Search for a level or publisher" class="w-full border-0 outline-none"/>
+			</div>
+			<div x-data="{ active: 'classic' }" class="flex flex-col gap-6">
+				<div class="inline-flex justify-between">
+					<div class="inline-flex p-1 rounded-full bg-[#1A0A0A] border border-[#281818] gap-2">
+						<div @click="active = 'classic'" :class="active == 'classic' ? 'bg-[#FF2E2C] text-[#EEEEEE] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]' : 'text-[#808080] bg-[#FFFFFF0F]]'" class="px-5.5 py-2 text-base font-medium rounded-full cursor-pointer">
+							Classic
+						</div>
+						<div @click="active = 'platformer'" :class="active == 'platformer' ? 'bg-[#4A9EFF] text-[#EEEEEE] shadow-[0px_8px_16px_rgba(74,158,255,0.2),0px_-1px_2px_#4A9EFF_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#1a6fd4_inset]' : 'text-[#808080] bg-[#FFFFFF0F]]'" class="px-5.5 py-2 text-base font-medium rounded-full cursor-pointer">
+							Platformer
+						</div>
+					</div>
+					<div class="inline-flex gap-1 text-[#808080] px-5.5 py-3 border border-[#808080] rounded-3xl">
+						<div class="text-base font-medium">
+							Filters
+						</div>
+						<div class="flex justify-center items-center">
+							@components.Filter(20, 20)
+						</div>
+					</div>
+				</div>
+				<div x-show="active === 'classic'" class="inline-flex justify-start p-2 gap-4 rounded-lg bg-[#FFFFFF0F] border border-[#281818]">
+					<img src="/static/assets/thumbnail.png" class="w-72 h-40 rounded-sm"/>
+					<div class="flex flex-col justify-between py-2">
+						<div class="flex flex-col gap-3">
+							<div class="inline-flex justify-start gap-2">
+								<span class="flex justify-center items-center h-6.5 w-6.5 border rounded-lg text-xs font-medium leading-none bg-[#D4AF374D] border-[#D4AF374D] text-[#D4AF37]">
+									1
+								</span>
+								<span class="whitespace-nowrap h-6.5 px-4 py-1.5 border rounded-full text-xs font-medium leading-none bg-[#FF2E2C26] border-[#FF2E2C4D] text-[#FF2E2C]">
+									Extreme Demon
+								</span>
+							</div>
+							<div class="flex flex-col justify-start gap-2">
+								<span class="text-2xl text-[#FFFFFF] font-medium">Thinking Space II</span>
+								<div class="inline-flex gap-1.75">
+									<span class="text-sm text-[#CFCCCC] font-medium">By <span class="text-sm text-[#FFFFFF] font-medium">CairoX</span></span>
+									<span class="text-sm text-[#FFFFFF33] font-medium">|</span>
+									<div class="inline-flex gap-1">
+										<span class="text-sm text-[#CFCCCC] font-medium">ID: <span class="text-sm text-[#FFFFFF] font-medium">12345678</span></span>
+										<div class="flex justify-center items-center text-[#CFCCCC] cursor-pointer">
+											@components.Copy(14, 14)
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="inline-flex justify-start gap-4">
+							<div class="inline-flex gap-1 text-[#FFD667]">
+								<div class="flex justify-center items-center">
+									@components.Star(16, 16)
+								</div>
+								<span class="text-sm font-medium">
+									135 pts
+								</span>
+							</div>
+							<div class="inline-flex gap-1 text-[#67B6FF]">
+								<div class="flex justify-center items-center">
+									@components.TrophyStar(16, 16)
+								</div>
+								<span class="text-sm font-medium">
+									6 records
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	}
