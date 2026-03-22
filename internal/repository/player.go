@@ -3,10 +3,12 @@ package repository
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/shopspring/decimal"
 	"github.com/themoroccandemonlist/tmdl-server/internal/model"
 )
 
@@ -59,4 +61,24 @@ func UpdateUsernameAndRegion(ctx context.Context, pool *pgxpool.Pool, playerID u
 		return errors.New("No row found to update")
 	}
 	return nil
+}
+
+// to verify
+func UpdatePlayersClassicPoints(ctx context.Context, pool *pgxpool.Pool, players []*model.Player) error {
+    ids := make([]uuid.UUID, len(players))
+    points := make([]decimal.Decimal, len(players))
+    for i, p := range players {
+        ids[i] = p.ID
+        points[i] = p.ClassicPoints
+    }
+
+    _, err := pool.Exec(ctx, `
+        UPDATE players SET classic_points = data.points
+        FROM unnest($1::uuid[], $2::numeric[]) AS data(id, points)
+        WHERE players.id = data.id
+    `, ids, points)
+    if err != nil {
+        return fmt.Errorf("failed to bulk update player points: %w", err)
+    }
+    return nil
 }
