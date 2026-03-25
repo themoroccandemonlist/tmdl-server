@@ -8,12 +8,27 @@ import (
 	"strconv"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/gorilla/csrf"
 	"github.com/shopspring/decimal"
 	"github.com/themoroccandemonlist/tmdl-server/internal/enum"
 	"github.com/themoroccandemonlist/tmdl-server/internal/model"
 	"github.com/themoroccandemonlist/tmdl-server/internal/repository"
 	"github.com/themoroccandemonlist/tmdl-server/internal/util"
+	"github.com/themoroccandemonlist/tmdl-server/internal/views/admin"
 )
+
+func (h *Handler) ListClassicLevels(w http.ResponseWriter , r *http.Request) {
+	csrfToken := csrf.TemplateField(r)
+	var err error
+	if IsHTMXRequest(r) {
+		err = admin.ClassicLevels(string(csrfToken)).Render(r.Context(), w)
+	} else {
+		err = admin.Layout("Admin - Classic Levels", admin.ClassicLevels(string(csrfToken))).Render(r.Context(), w)
+	}
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
 
 func (h *Handler) CreateClassicLevel(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseMultipartForm(32 << 20); err != nil {

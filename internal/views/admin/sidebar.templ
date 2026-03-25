@@ -1,0 +1,47 @@
+package admin
+
+import (
+	"github.com/themoroccandemonlist/tmdl-server/internal/views/components"
+	"github.com/themoroccandemonlist/tmdl-server/internal/types"
+)
+
+templ Sidebar() {
+	<aside class="w-60 min-w-60 h-full flex flex-col justify-between text-[#808080] border-r border-[#281818]">
+		<div class="flex flex-col gap-4">
+			<div class="h-16 p-4 border-b border-[#281818] border-box">
+				<a href="/">
+					<img src="/static/assets/sidebar-logo.svg" alt="The Moroccan Demonlist Logo"/>
+				</a>
+			</div>
+			<div class="flex flex-col gap-2 px-2">
+				<div class="inline-flex items-center">
+					<span class="text-center justify-start text-xs font-medium text-[#FFFFFF66] tracking-wide px-1">MODERATION</span>
+				</div>
+				<ul class="flex flex-col gap-1 text-sm font-medium">
+					@NavItem("/", "Overview", components.Table(16, 16))
+					@NavItemDropdown("Levels", components.List(16, 16), dropdownChildren([]types.DropdownItem{
+						{Name: "Classic", Count: "300", Href: "/"},
+						{Name: "Platformer", Count: "300", Href: "/"},
+					}))
+					@NavItemDropdown("Records", components.Trophy(16, 16), dropdownChildren([]types.DropdownItem{
+						{Name: "Classic", Count: "300", Href: "/"},
+						{Name: "Platformer", Count: "300", Href: "/"},
+					}))
+					@NavItem("/", "Players", components.Users(16, 16))
+					@NavItem("/", "Reports", components.Flag(16, 16))
+					@NavItem("/", "Submissions", components.File(16, 16))
+					@NavItem("/", "Region", components.Map(16, 16))
+					@NavItem("/", "Badges", components.Award(16, 16))
+					@NavItem("/", "Packs", components.Package(16, 16))
+				</ul>
+			</div>
+		</div>
+		<div class="border-t border-[#281818] border-box py-4 px-2">
+			<ul class="flex flex-col gap-1 text-sm font-medium">
+				@NavItem("/", "Settings", components.Settings(16, 16))
+				@NavItem("/", "Back to site", components.ChevronLeft(16, 16))
+				@NavItem("/", "Log out", components.Logout(16, 16))
+			</ul>
+		</div>
+	</aside>
+}

@@ -1,0 +1,127 @@
+package admin
+
+import "github.com/themoroccandemonlist/tmdl-server/internal/views/components"
+
+// import "github.com/themoroccandemonlist/tmdl-server/internal/model"
+// import "github.com/themoroccandemonlist/tmdl-server/internal/enum"
+
+// templ ClassicLevels(csrfToken string, level model.ClassicLevel) {
+templ ClassicLevels(csrfToken string) {
+	@AddLevel(csrfToken)
+	<div class="inline-flex justify-between items-center">
+		<div class="flex flex-col gap-2">
+			<span class="justify-start text-2xl font-semibold text-[#FFFFFF]">Manage Classic Levels</span>
+			<span class="justify-start text-sm font-medium text-[#BEBEBE99]">Review pending records and manage database entries.</span>
+		</div>
+		<div class="pr-4">
+			<div x-data @click="$dispatch('open-modal')" class="inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-10 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
+				@components.Plus(16, 16)
+				<span class="text-sm font-medium leading-none">Add Level</span>
+			</div>
+		</div>
+	</div>
+	<div class="inline-flex items-center gap-2.5 pl-4 pr-2.5 py-2 text-[#D0CFD3] bg-[#1A0A0A] border border-[#281818] rounded-lg h-9">
+		@components.Search(16, 16)
+		<input id="search" type="text" placeholder="Search by Level name or Publisher" class="w-full h-9 placeholder:text-[#FFFFFF80] text-sm placeholder:font-normal outline-none"/>
+	</div>
+	<div class="border border-[#281818] rounded-xl overflow-hidden">
+		<table class="table-fixed text-white w-full">
+			<thead class="bg-[#1A0909] text-[#FFFFFF66] h-10.5">
+				<tr>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">#</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">LEVEL</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">PUBLISHER</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">DIFFICULTY</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">POINTS</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">RECORDS</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">ACTIONS</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="bg-[#1F0F0F]">
+					<td class="px-4 py-3">
+						// switch level.Ranking {
+						// 	case 1:
+						<span class="flex justify-center items-center h-6.5 w-6.5 border rounded-lg text-xs font-medium leading-none bg-[#D4AF374D] border-[#D4AF374D] text-[#D4AF37]">
+							// { level.Ranking }
+							1
+						</span>
+						// 	case 2:
+						// 	<span class="flex justify-center items-center h-6.5 w-6.5 border rounded-lg text-xs font-medium leading-none bg-[#D6D9DF4D] border-[#D6D9DF4D] text-[#D6D9DF]">
+						// 		{ level.Ranking }
+						// 	</span>
+						// 	case 3:
+						// 	<span class="flex justify-center items-center h-6.5 w-6.5 border rounded-lg text-xs font-medium leading-none bg-[#CD7F324D] border-[#CD7F324D] text-[#CD7F32]">
+						// 		{ level.Ranking }
+						// 	</span>
+						// 	default:
+						// 	<span class="flex justify-center items-center h-6.5 w-6.5 border rounded-lg text-xs font-medium leading-none bg-[#8A8F9826] border-[#8A8F984D] text-[#8A8F98]">
+						// 		{ level.Ranking }
+						// 	</span>
+						// }
+					</td>
+					<td class="px-4 py-3">
+						<span class="text-sm text-[#EEEEEE] font-semibold">
+							// { level.Name }
+							Bacteria
+						</span>
+					</td>
+					<td class="px-4 py-3">
+						<span class="text-sm text-[#EEEEEE] font-semibold">
+							// { level.Publisher }
+							asdasd
+						</span>
+					</td>
+					<td class="px-4 py-3">
+						// switch level.Difficulty {
+						// 	case enum.EasyDemon:
+						<span class="whitespace-nowrap h-6.5 px-4 py-1.5 border rounded-full text-xs font-medium leading-none bg-[#2196F326] border-[#2196F34D] text-[#2196F3]">
+							// { enum.FormatDifficulty(level.Difficulty) }
+							Easy Demon
+						</span>
+						// 	case enum.MediumDemon:
+						// 		<span class="whitespace-nowrap h-6.5 px-4 py-1.5 border rounded-full text-xs font-medium leading-none bg-[#FF6B3526] border-[#FF6B354D] text-[#FF6B35]">
+						// 			{ enum.FormatDifficulty(level.Difficulty) }
+						// 		</span>
+						// 	case enum.HardDemon:
+						// 		<span class="whitespace-nowrap h-6.5 px-4 py-1.5 border rounded-full text-xs font-medium leading-none bg-[#FFD70026] border-[#FFD7004D] text-[#FFD700]">
+						// 			{ enum.FormatDifficulty(level.Difficulty) }
+						// 		</span>
+						// 	case enum.InsaneDemon:
+						// 		<span class="whitespace-nowrap h-6.5 px-4 py-1.5 border rounded-full text-xs font-medium leading-none bg-[#4CAF5026] border-[#4CAF504D] text-[#4CAF50]">
+						// 			{ enum.FormatDifficulty(level.Difficulty) }
+						// 		</span>
+						// 	case enum.ExtremeDemon:
+						// 		<span class="whitespace-nowrap h-6.5 px-4 py-1.5 border rounded-full text-xs font-medium leading-none bg-[#FF2E2C26] border-[#FF2E2C4D] text-[#FF2E2C]">
+						// 			{ enum.FormatDifficulty(level.Difficulty) }
+						// 		</span>
+						// }
+					</td>
+					<td class="px-4 py-3">
+						<span class="text-sm text-[#FFD700] font-semibold">
+							// { level.Points }
+							350
+						</span>
+					</td>
+					<td class="px-4 py-3">
+						<span class="text-sm text-[#4A9EFF] font-semibold">
+							// { level.Records }
+							19
+						</span>
+					</td>
+					<td class="px-4 py-3">
+						<div class="text-[#EEEEEE] cursor-pointer">
+							@components.Ellipsis(16, 16)
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			// <tfoot class="bg-[#1A0909] text-[#FFFFFF66]">
+			// 	<tr class="inline-flex justify-between items-center">
+			// 		<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">Showing 1-14 of 320</th>
+			// 		<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">123123</th>
+			// 	</tr>
+			// </tfoot>
+		</table>
+	</div>
+}

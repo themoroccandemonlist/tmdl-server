@@ -1,0 +1,37 @@
+package admin
+
+import "github.com/themoroccandemonlist/tmdl-server/internal/views/components"
+
+templ Dropdown(id string, placeholder string) {
+	<div class="relative" x-data="{ open: false, selectedValue: '', selectedLabel: '' }" @click.outside="open = false">
+		<button
+			type="button"
+			@click="open = !open"
+			class="w-full flex items-center justify-between px-4 py-2 border border-[#281818] rounded-lg bg-[#110000] cursor-pointer h-10"
+		>
+			<span
+				class="text-sm"
+				:class="selectedLabel ? 'text-[#EEEEEE]' : 'text-[#333333]'"
+				x-text={ "selectedLabel || '" + placeholder + "'" }
+			></span>
+			<div class="w-4 h-4 text-[#EEEEEE] transition-transform duration-200" :class="{ 'rotate-180': open }">
+				@components.ChevronDown(16, 16)
+			</div>
+		</button>
+		<div x-show="open" x-transition class="absolute z-10 w-full mt-1 bg-[#1A0909] border border-[#281818] rounded-lg py-1">
+			{ children... }
+		</div>
+		<input type="hidden" id={ "input-" + id } name={ id } x-bind:value="selectedValue"/>
+	</div>
+}
+
+templ DropdownOption(value string, label string) {
+	<div class="px-1 py-0.5">
+		<div
+			@click={ "selectedValue = '" + value + "'; selectedLabel = '" + label + "'; open = false" }
+			class="text-[#EEEEEE] hover:bg-[#80808024] cursor-pointer text-sm px-3 py-2 rounded-lg transition-colors duration-150"
+		>
+			{ label }
+		</div>
+	</div>
+}

@@ -12,10 +12,14 @@ import (
 )
 
 func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
-	err := views.Home().Render(r.Context(), w)
+	var err error
+	if IsHTMXRequest(r) {
+		err = views.Home().Render(r.Context(), w)
+	} else {
+		err = views.Layout("Home", views.Home()).Render(r.Context(), w)
+	}
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
 	}
 }
 

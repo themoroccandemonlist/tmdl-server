@@ -9,6 +9,10 @@
         font-family: var(--font-barlow);
         background-color: #110000;
     }
+
+    [x-cloak] {
+        display: none !important;
+    }
 }
 
 /* barlow-100 - latin */

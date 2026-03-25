@@ -4,6 +4,12 @@ import (
 	"github.com/google/uuid"
 )
 
+type DropdownItem struct {
+	Name  string
+	Count string
+	Href  string
+}
+
 type SessionData struct {
 	PlayerID       uuid.UUID
 	PlayerUsername string

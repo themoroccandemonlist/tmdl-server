@@ -34,10 +34,17 @@ func New() (*mux.Router, *handler.Handler) {
 	auth.Use(middleware.RequireRole(h, "USER"))
 	auth.Use(middleware.RequireProfile(h))
 
+	mod := r.PathPrefix("/admin").Subrouter()
+	mod.Use(middleware.RequireRole(h, "CLASSIC_MODERATOR", "PLATFORMER_MODERATOR", "HEAD_MODERATOR"))
+	// mod.Use(middleware.RequireProfile(h))
+
 	r.HandleFunc("/", h.Home).Methods("GET")
 	r.HandleFunc("/login", h.Login).Methods("GET")
 	r.HandleFunc("/callback", h.Callback).Methods("GET")
 	r.HandleFunc("/logout", h.Logout).Methods("GET")
+
+	mod.HandleFunc("/classic-levels", h.ListClassicLevels).Methods("GET")
+	mod.HandleFunc("/classic-levels", h.CreateClassicLevel).Methods("POST")
 
 	// auth.HandleFunc("/profile", nil).Methods("GET")
 	auth.HandleFunc("/profile-setup", h.ProfileSetup).Methods("GET")

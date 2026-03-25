@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/themoroccandemonlist/tmdl-server/internal/config"
 	"github.com/themoroccandemonlist/tmdl-server/internal/enum"
@@ -29,3 +31,8 @@ func New() *Handler {
 		Validate: v,
 	}
 }
+
+func IsHTMXRequest(r *http.Request) bool {
+    return r.Header.Get("HX-Request") == "true"
+}
+
