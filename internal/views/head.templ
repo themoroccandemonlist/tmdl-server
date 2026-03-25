@@ -1,0 +1,17 @@
+package views
+
+templ Head(title string) {
+    <!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico"/>
+			<script src="/static/js/htmx@2.0.8.min.js" defer></script>
+			<script src="/static/js/alpinejs@3.15.8.min.js" defer></script>
+			<link rel="stylesheet" href="/static/css/output.css"/>
+			<title>{ title }</title>
+		</head>
+		{ children... }
+	</html>
+}
