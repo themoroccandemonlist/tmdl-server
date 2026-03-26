@@ -7,7 +7,7 @@ import "github.com/themoroccandemonlist/tmdl-server/internal/types"
 import "strconv"
 
 templ ClassicLevels(csrfToken string, pagination types.Pagination, levels []dto.AdminClassicLevelRow) {
-	@AddLevel(csrfToken)
+	@AddLevel(csrfToken, "classic")
 	<div class="inline-flex justify-between items-center">
 		<div class="flex flex-col gap-2">
 			<span class="justify-start text-2xl font-semibold text-[#FFFFFF]">Manage Classic Levels</span>
@@ -24,8 +24,8 @@ templ ClassicLevels(csrfToken string, pagination types.Pagination, levels []dto.
 		@components.Search(16, 16)
 		<input id="search" name="search" type="text" placeholder="Search by Level name or Publisher" class="w-full h-9 placeholder:text-[#FFFFFF80] text-sm placeholder:font-normal outline-none" hx-get="/admin/classic-levels" hx-trigger="input changed delay:300ms" hx-target="#levels-container" hx-swap="outerHTML" hx-select="#levels-container"/>
 	</div>
-	<div id="levels-container" class="border border-[#281818] rounded-xl overflow-hidden">
-		<table class="table-fixed text-white w-full">
+	<div id="levels-container" class="border border-[#281818] rounded-xl overflow-x-auto">
+		<table class="table-fixed text-white min-w-[1168px] w-full">
 			<thead class="bg-[#1A0909] text-[#FFFFFF66] h-10.5 border-b border-[#281818]">
 				<tr>
 					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">#</th>
@@ -80,7 +80,13 @@ templ ClassicLevels(csrfToken string, pagination types.Pagination, levels []dto.
 						</td>
 						<td class="px-4 py-3">
 							<div class="text-[#EEEEEE] cursor-pointer">
-								@components.Ellipsis(16, 16)
+								@ContextMenu(components.Ellipsis(16, 16)) {
+									@ContextMenuItem(components.ArrowUpDown(12, 12), "Reorder")
+									@ContextMenuItem(components.ArrowLeftRight(12, 12), "Swap")
+									@ContextMenuItem(components.Pencil(12, 12), "Edit")
+									@ContextMenuDivider()
+									@ContextMenuDestructiveItem(components.Trash(12, 12), "Delete")
+								}
 							</div>
 						</td>
 					</tr>

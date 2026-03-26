@@ -2,8 +2,8 @@ package admin
 
 import "github.com/themoroccandemonlist/tmdl-server/internal/views/components"
 
-templ AddLevel(csrfToken string) {
-	<div x-cloak x-transition id="add-modal" x-show="open" x-data="{ open: false, tab: 'classic' }" @open-modal.window="open = true" @click.self="open = false" class="flex justify-center items-center fixed inset-0 bg-black/50 z-50">
+templ AddLevel(csrfToken string, activeTab string) {
+	<div x-cloak x-transition id="add-modal" x-show="open" x-data={ "{ open: false, tab: '" + activeTab + "' }" } @open-modal.window="open = true" @click.self="open = false" class="flex justify-center items-center fixed inset-0 bg-black/50 z-50">
 		<div class="bg-[#1A0909] flex flex-col w-150 border border-[#281818] rounded-xl">
 			<div class="inline-flex justify-between px-6 py-4 border-b border-[#281818]">
 				<div class="flex flex-col gap-1 justify-start">
@@ -34,7 +34,7 @@ templ AddLevel(csrfToken string) {
 						</div>
 					</div>
 				</div>
-				<form id="classic-form" x-show="tab === 'classic'" hx-post="/admin/classic-levels" hx-swap="none" hx-encoding="multipart/form-data">
+				<form id="classic-form" x-show="tab === 'classic'" hx-post="/admin/classic-records" hx-swap="none" hx-encoding="multipart/form-data">
 					@templ.Raw(csrfToken)
 					<div class="grid grid-cols-2 gap-3">
 						<div class="flex flex-col gap-2">
