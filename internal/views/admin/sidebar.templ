@@ -25,7 +25,7 @@ templ Sidebar(counts types.DataCount) {
 						{Name: "Platformer", Count: strconv.Itoa(counts.PlatformerLevelCount), Href: "/"},
 					}))
 					@NavItemDropdown("Records", components.Trophy(16, 16), dropdownChildren([]types.DropdownItem{
-						{Name: "Classic", Count: "300", Href: "/"},
+						{Name: "Classic", Count: strconv.Itoa(counts.ClassicRecordCount), Href: "/admin/classic-records"},
 						{Name: "Platformer", Count: "300", Href: "/"},
 					}))
 					@NavItem("/", "Players", components.Users(16, 16))

@@ -46,6 +46,9 @@ func New() (*mux.Router, *handler.Handler) {
 	mod.HandleFunc("/classic-levels", h.ListClassicLevels).Methods("GET")
 	mod.HandleFunc("/classic-levels", h.CreateClassicLevel).Methods("POST")
 
+
+	mod.HandleFunc("/classic-records", h.ListClassicRecords).Methods("GET")
+
 	// auth.HandleFunc("/profile", nil).Methods("GET")
 	auth.HandleFunc("/profile-setup", h.ProfileSetup).Methods("GET")
 	auth.HandleFunc("/profile-setup", h.ProfileSetupSubmit).Methods("PATCH")

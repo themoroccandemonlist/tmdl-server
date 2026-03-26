@@ -1,0 +1,70 @@
+package admin
+
+templ ContextMenu(trigger templ.Component) {
+	<div class="relative" x-data="{ open: false, menuX: 0, menuY: 0 }">
+		<div
+			@click.stop="
+				let rect = $el.getBoundingClientRect();
+				menuX = rect.left;
+				menuY = rect.bottom + 4;
+				open = !open
+			"
+			class="cursor-pointer"
+		>
+			@trigger
+		</div>
+		<template x-teleport="body">
+			<div
+				x-show="open"
+				x-cloak
+				@click.outside="open = false"
+				x-transition:enter="transition ease-out duration-100"
+				x-transition:enter-start="opacity-0 scale-95"
+				x-transition:enter-end="opacity-100 scale-100"
+				x-transition:leave="transition ease-in duration-75"
+				x-transition:leave-start="opacity-100 scale-100"
+				x-transition:leave-end="opacity-0 scale-95"
+				:style="{ position: 'fixed', left: menuX + 'px', top: menuY + 'px', zIndex: 50 }"
+				class="flex flex-col gap-1 bg-[#1A0909] rounded-md p-1"
+			>
+				{ children... }
+			</div>
+		</template>
+	</div>
+}
+
+templ ContextMenuItem(icon templ.Component, label string) {
+	<button
+		type="button"
+		@click="open = false"
+		class="h-6 w-22 flex items-center gap-1 pl-1 pr-2 text-xs text-[#808080] font-medium hover:text-[#EEEEEE] hover:bg-[#80808024] cursor-pointer transition-colors rounded-sm"
+	>
+		<div>
+			@icon
+		</div>
+		<span>
+			{ label }
+		</span>
+	</button>
+}
+
+templ ContextMenuDestructiveItem(icon templ.Component, label string) {
+	<div>
+		<button
+			type="button"
+			@click="open = false"
+			class="h-6 w-22 flex items-center gap-1 pl-1 pr-2 text-xs text-[#FF2E2C] font-medium hover:bg-[#FF2E2C14] cursor-pointer transition-colors rounded-sm "
+		>
+			<div>
+				@icon
+			</div>
+			<span>
+				{ label }
+			</span>
+		</button>
+	</div>
+}
+
+templ ContextMenuDivider() {
+	<div class="border-t border-[#281818]"></div>
+}

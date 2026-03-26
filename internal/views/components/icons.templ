@@ -300,3 +300,74 @@ templ Ellipsis(width int, height int) {
 		<circle cx="5" cy="12" r="1"></circle>
 	</svg>
 }
+
+templ Smartphone(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-smartphone-icon lucide-smartphone">
+		<rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect>
+		<path d="M12 18h.01"></path>
+	</svg>
+}
+
+templ Computer(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-computer-icon lucide-computer">
+		<rect width="14" height="8" x="5" y="2" rx="2"></rect>
+		<rect width="20" height="8" x="2" y="14" rx="2"></rect>
+		<path d="M6 18h2"></path>
+		<path d="M12 18h6"></path>
+	</svg>
+}
+
+templ Play(width int, height int) {
+	<svg width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<g clip-path="url(#clip0_327_4205)">
+			<path d="M9 1.5C4.86 1.5 1.5 4.86 1.5 9C1.5 13.14 4.86 16.5 9 16.5C13.14 16.5 16.5 13.14 16.5 9C16.5 4.86 13.14 1.5 9 1.5ZM7.125 12.375V5.625L12.375 9L7.125 12.375Z" fill="#EEEEEE"></path>
+		</g>
+		<defs>
+			<clipPath id="clip0_327_4205">
+				<rect width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } fill="white"></rect>
+			</clipPath>
+		</defs>
+	</svg>
+}
+
+templ Raw(width int, height int) {
+	<svg width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M15 9.74997V6.74997L9.75 1.49997H3V9.74997M9.75 1.87497V6.74997H14.625" stroke="#EEEEEE" stroke-width="1.125" stroke-linecap="square"></path>
+		<path d="M3 16.5V14.625M3 14.625V12H4.6875C5.41237 12 6 12.5877 6 13.3125C6 14.0374 5.41237 14.625 4.6875 14.625M3 14.625H4.6875M4.6875 14.625L5.625 16.5" stroke="#EEEEEE" stroke-width="1.125" stroke-linecap="square"></path>
+		<path d="M12 12V16.5H12.0869L13.5 15L14.9015 16.5H15V12" stroke="#EEEEEE" stroke-width="1.125" stroke-linecap="square"></path>
+		<path d="M10.5 16.5L9.375 12H8.625L7.5 16.5M8.25 14.625H9.75" stroke="#EEEEEE" stroke-width="1.125" stroke-linecap="square"></path>
+	</svg>
+}
+
+templ ArrowUpDown(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-down-icon lucide-arrow-up-down">
+		<path d="m21 16-4 4-4-4"></path>
+		<path d="M17 20V4"></path>
+		<path d="m3 8 4-4 4 4"></path>
+		<path d="M7 4v16"></path>
+	</svg>
+}
+
+templ ArrowLeftRight(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-right-icon lucide-arrow-left-right">
+		<path d="M8 3 4 7l4 4"></path>
+		<path d="M4 7h16"></path>
+		<path d="m16 21 4-4-4-4"></path>
+		<path d="M20 17H4"></path>
+	</svg>
+}
+
+templ Pencil(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil-icon lucide-pencil">
+		<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path>
+		<path d="m15 5 4 4"></path>
+	</svg>
+}
+
+templ Trash(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-icon lucide-trash">
+		<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+		<path d="M3 6h18"></path>
+		<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+	</svg>
+}

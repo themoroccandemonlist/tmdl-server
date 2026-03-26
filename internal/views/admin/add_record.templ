@@ -1,0 +1,182 @@
+package admin
+
+import "github.com/themoroccandemonlist/tmdl-server/internal/views/components"
+
+templ AddRecord(csrfToken string, activeTab string) {
+	<div x-cloak x-transition id="add-modal" x-show="open" x-data={ "{ open: false, tab: '" + activeTab + "' }" } @open-modal.window="open = true" @click.self="open = false" class="flex justify-center items-center fixed inset-0 bg-black/50 z-50">
+		<div class="bg-[#1A0909] flex flex-col w-150 border border-[#281818] rounded-xl">
+			<div class="inline-flex justify-between px-6 py-4 border-b border-[#281818]">
+				<div class="flex flex-col gap-1 justify-start">
+					<span class="text-base text-[#EEEEEE] font-semibold">Add New Level</span>
+					<span class="text-xs text-[#B3B3B3] font-normal">Add a level to the demonlist</span>
+				</div>
+				<div @click="open = false" class="flex justify-center items-center p-1.5 text-[#555555] cursor-pointer">
+					@components.X(16, 16)
+				</div>
+			</div>
+			<div class="flex flex-col gap-4 px-6 py-5">
+				<div class="inline-flex gap-2">
+					<span class="text-xs text-[#808080] font-medium tracking-wide leading-none">BASIC INFO</span>
+					<div class="flex items-center">
+						@components.Line()
+					</div>
+				</div>
+				<div class="flex flex-col gap-2">
+					<span class="text-xs text-[#B3B3B3] font-medium">GAME MODE</span>
+					<div class="inline-flex gap-1 p-1 w-full bg-[#110000] border border-[#281818] rounded-[10px]">
+						<div x-on:click="tab = 'classic'" x-bind:class="tab === 'classic' ? 'text-[#FF2E2C] bg-[#C3020026] border border-[#C3020040] rounded-lg' : 'text-[#808080]'" class="inline-flex gap-1.25 h-8 px-2 justify-center items-center flex-1 cursor-pointer transition-colors">
+							@components.Gamepad(11, 11)
+							<span class="text-sm font-medium">Classic</span>
+						</div>
+						<div x-on:click="tab = 'platformer'" x-bind:class="tab === 'platformer' ? 'text-[#4A9EFF] bg-[#4A9EFF26] border border-[#4A9EFF40] rounded-lg' : 'text-[#808080]'" class="inline-flex gap-1.25 h-8 px-2 justify-center items-center flex-1 cursor-pointer transition-colors">
+							@components.Joystick(11, 11)
+							<span class="text-sm font-medium">Platformer</span>
+						</div>
+					</div>
+				</div>
+				<form id="classic-form" x-show="tab === 'classic'" hx-post="/admin/classic-levels" hx-swap="none" hx-encoding="multipart/form-data">
+					@templ.Raw(csrfToken)
+					<div class="grid grid-cols-2 gap-3">
+						<div class="flex flex-col gap-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">ID<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<input type="text" name="level_id" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. Slaughterhouse"/>
+						</div>
+						<div class="flex flex-col gap-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">NAME<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<input type="text" name="name" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. Slaughterhouse"/>
+						</div>
+						<div class="flex flex-col gap-2 col-span-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">PUBLISHER<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<input type="text" name="publisher" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. IcEDCave"/>
+						</div>
+						<div class="inline-flex gap-2 col-span-2">
+							<span class="text-xs text-[#808080] font-medium tracking-wide leading-none">CLASSIFICATION</span>
+							<div class="flex items-center">
+								@components.Line()
+							</div>
+						</div>
+						<div class="flex flex-col gap-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">DIFFICULTY<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							@Dropdown("difficulty", "Select difficulty") {
+								@DropdownOption("EASY_DEMON", "Easy Demon")
+								@DropdownOption("MEDIUM_DEMON", "Medium Demon")
+								@DropdownOption("HARD_DEMON", "Hard Demon")
+								@DropdownOption("INSANE_DEMON", "Insane Demon")
+								@DropdownOption("EXTREME_DEMON", "Extreme Demon")
+							}
+						</div>
+						<div class="flex flex-col gap-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">DURATION<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							@Dropdown("duration", "Select duration") {
+								@DropdownOption("TINY", "Tiny")
+								@DropdownOption("SHORT", "Short")
+								@DropdownOption("MEDIUM", "Medium")
+								@DropdownOption("LONG", "Long")
+								@DropdownOption("XL", "XL")
+							}
+						</div>
+						<div class="flex flex-col gap-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">RANKING<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<div class="inline-flex items-center w-full bg-[#110000] border border-[#281818] rounded-lg overflow-hidden h-10">
+								<div class="flex items-center justify-center px-3 py-2 border-r border-[#281818] text-[#808080] h-full">
+									@components.Hash(14, 14)
+								</div>
+								<input type="text" name="ranking" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white bg-[#110000] w-full" placeholder="e.g. 1"/>
+							</div>
+						</div>
+						<div class="flex flex-col gap-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">LIST PERCENTAGE<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<div class="inline-flex items-center w-full bg-[#110000] border border-[#281818] rounded-lg overflow-hidden h-10">
+								<div class="flex items-center justify-center px-3 py-2 border-r border-[#281818] text-[#808080] h-full">
+									@components.Percent(14, 14)
+								</div>
+								<input type="text" name="list_percentage" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white bg-[#110000] w-full" placeholder="e.g. 75"/>
+							</div>
+						</div>
+						<div class="inline-flex gap-2 col-span-2">
+							<span class="text-xs text-[#808080] font-medium tracking-wide leading-none">MEDIA</span>
+							<div class="flex items-center">
+								@components.Line()
+							</div>
+						</div>
+						<div class="flex flex-col gap-2 col-span-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">YOUTUBE LINK<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<input type="text" name="youtube_link" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. https://youtu.be/iik25wqIuFo"/>
+						</div>
+						<div class="flex flex-col gap-2 col-span-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">THUMBNAIL<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<input type="file" name="thumbnail" accept="image/*" class="px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10 file:mr-3 file:bg-transparent file:border-0 file:text-[#808080] file:text-xs file:cursor-pointer cursor-pointer"/>
+						</div>
+					</div>
+				</form>
+				<form id="platformer-form" x-show="tab === 'platformer'" hx-post="/admin/platformer-levels" hx-swap="none">
+					@templ.Raw(csrfToken)
+					<div class="grid grid-cols-2 gap-3">
+						<div class="flex flex-col gap-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">ID<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<input type="text" name="level_id" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. Slaughterhouse"/>
+						</div>
+						<div class="flex flex-col gap-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">NAME<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<input type="text" name="name" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. Slaughterhouse"/>
+						</div>
+						<div class="flex flex-col gap-2 col-span-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">PUBLISHER<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<input type="text" name="publisher" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. IcEDCave"/>
+						</div>
+						<div class="inline-flex gap-2 col-span-2">
+							<span class="text-xs text-[#808080] font-medium tracking-wide leading-none">CLASSIFICATION</span>
+							<div class="flex items-center">
+								@components.Line()
+							</div>
+						</div>
+						<div class="flex flex-col gap-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">DIFFICULTY<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							@Dropdown("PLATFORMER_DIFFICULTY", "Select difficulty") {
+								@DropdownOption("EASY_DEMON", "Easy Demon")
+								@DropdownOption("MEDIUM_DEMON", "Medium Demon")
+								@DropdownOption("HARD_DEMON", "Hard Demon")
+								@DropdownOption("INSANE_DEMON", "Insane Demon")
+								@DropdownOption("EXTREME_DEMON", "Extreme Demon")
+							}
+						</div>
+						<div class="flex flex-col gap-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">RANKING<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<div class="inline-flex items-center w-full bg-[#110000] border border-[#281818] rounded-lg overflow-hidden h-10">
+								<div class="flex items-center justify-center px-3 py-2 border-r border-[#281818] text-[#808080] h-full">
+									@components.Hash(14, 14)
+								</div>
+								<input type="text" name="ranking" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white bg-[#110000] w-full" placeholder="e.g. 1"/>
+							</div>
+						</div>
+						<div class="inline-flex gap-2 col-span-2">
+							<span class="text-xs text-[#808080] font-medium tracking-wide leading-none">MEDIA</span>
+							<div class="flex items-center">
+								@components.Line()
+							</div>
+						</div>
+						<div class="flex flex-col gap-2 col-span-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">YOUTUBE LINK<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<input type="text" name="youtube_link" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. https://youtu.be/iik25wqIuFo"/>
+						</div>
+						<div class="flex flex-col gap-2 col-span-2">
+							<label class="text-xs text-[#9F9FA9] font-medium">THUMBNAIL LINK<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<input type="text" name="thumbnail_link" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. https://i.ytimg.com/vi/iik25wqIuFo/maxresdefault.jpg"/>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="inline-flex justify-between px-6 py-4 border-t border-[#281818]">
+				<div class="inline-flex gap-2 justify-end w-full">
+					<div @click="open = false" class="inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 border border-[#281818]">
+						<span class="text-sm font-medium leading-none">Cancel</span>
+					</div>
+					<button type="submit" x-bind:form="tab + '-form'" class="inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
+						@components.Plus(16, 16)
+						<span class="text-sm font-medium leading-none">Add Level</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}

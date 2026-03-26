@@ -1,0 +1,106 @@
+package admin
+
+import "github.com/themoroccandemonlist/tmdl-server/internal/views/components"
+import "github.com/themoroccandemonlist/tmdl-server/internal/dto"
+import "github.com/themoroccandemonlist/tmdl-server/internal/enum"
+import "github.com/themoroccandemonlist/tmdl-server/internal/types"
+import "strconv"
+
+templ ClassicRecords(csrfToken string, pagination types.Pagination, records []dto.AdminClassicRecordRow) {
+	@AddRecord(csrfToken, "classic")
+	<div class="inline-flex justify-between items-center">
+		<div class="flex flex-col gap-2">
+			<span class="justify-start text-2xl font-semibold text-[#FFFFFF]">Manage Classic Records</span>
+			<span class="justify-start text-sm font-medium text-[#BEBEBE99]">Review pending records and manage database entries.</span>
+		</div>
+		<div class="pr-4">
+			<div x-data @click="$dispatch('open-modal')" class="inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-10 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
+				@components.Plus(16, 16)
+				<span class="text-sm font-medium leading-none">Add Record</span>
+			</div>
+		</div>
+	</div>
+	<div class="inline-flex items-center gap-2.5 pl-4 pr-2.5 py-2 text-[#D0CFD3] bg-[#1A0A0A] border border-[#281818] rounded-lg h-9">
+		@components.Search(16, 16)
+		<input id="search" name="search" type="text" placeholder="Search by player name or level name" class="w-full h-9 placeholder:text-[#FFFFFF80] text-sm placeholder:font-normal outline-none" hx-get="/admin/classic-records" hx-trigger="input changed delay:300ms" hx-target="#records-container" hx-swap="outerHTML" hx-select="#records-container"/>
+	</div>
+	<div id="records-container" class="border border-[#281818] rounded-xl overflow-hidden">
+		<table class="table-fixed text-white w-full">
+			<thead class="bg-[#1A0909] text-[#FFFFFF66] h-10.5 border-b border-[#281818]">
+				<tr>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">PLAYER</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">LEVEL</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">PROGRESS</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">DATE</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">DEVICE</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">VIDEO</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">RAW FOOTAGE</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">ACTIONS</th>
+				</tr>
+			</thead>
+			<tbody id="records-tbody">
+				for _, record := range records {
+					<tr class="bg-[#1F0F0F]">
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#FF2E2C] font-semibold">{ record.Player.Username }</span>
+						</td>
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#EEEEEE] font-semibold">{ record.ClassicLevel.Name }</span>
+						</td>
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#05DF72] font-semibold">{ record.Progress }%</span>
+						</td>
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#EEEEEE] font-semibold">{ record.Date.Format("2006-01-02") }</span>
+						</td>
+						<td class="px-4 py-3 text-[#EEEEEE]">
+							switch record.Device {
+								case enum.PC:
+									// <span class="whitespace-nowrap h-6.5 px-4 py-1.5 border rounded-full text-xs font-medium leading-none bg-[#2196F326] border-[#2196F34D] text-[#2196F3]">{ enum.FormatDifficulty(level.Difficulty) }</span>
+									@components.Computer(16, 16)
+								case enum.Mobile:
+									// <span class="whitespace-nowrap h-6.5 px-4 py-1.5 border rounded-full text-xs font-medium leading-none bg-[#FF6B3526] border-[#FF6B354D] text-[#FF6B35]">{ enum.FormatDifficulty(level.Difficulty) }</span>
+									@components.Smartphone(16, 16)
+							}
+						</td>
+						<td class="px-4 py-3 text-[#EEEEEE]">
+                            if record.Footage != nil {
+								<a href={ templ.URL(*record.Footage) } target="_blank">
+									@components.Play(18, 18)
+								</a>
+							} else {
+								<span class="text-sm text-[#EEEEEE] font-semibold">N/A</span>
+							}
+						</td>
+                        <td class="px-4 py-3 text-[#EEEEEE]">
+							if record.RawFootage != nil {
+								<a href={ templ.URL(*record.RawFootage) } target="_blank">
+									@components.Raw(18, 18)
+								</a>
+							} else {
+								<span class="text-sm text-[#EEEEEE] font-semibold">N/A</span>
+							}
+						</td>
+						<td class="px-4 py-3">
+							<div class="text-[#EEEEEE] cursor-pointer">
+								@components.Ellipsis(16, 16)
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+			<tfoot>
+				<tr class="bg-[#1B0B0B]">
+					<td colspan="8" class="px-4 py-3">
+						<div class="flex justify-between">
+							<span class="flex justify-center items-center text-xs text-[#808080] font-medium leading-none">
+								Showing { strconv.Itoa(pagination.Start) }-{ strconv.Itoa(pagination.End) } of { strconv.Itoa(pagination.Total) }
+							</span>
+							@components.Pagination(pagination, "/admin/classic-records")
+						</div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+}
