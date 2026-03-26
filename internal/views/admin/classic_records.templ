@@ -24,8 +24,8 @@ templ ClassicRecords(csrfToken string, pagination types.Pagination, records []dt
 		@components.Search(16, 16)
 		<input id="search" name="search" type="text" placeholder="Search by player name or level name" class="w-full h-9 placeholder:text-[#FFFFFF80] text-sm placeholder:font-normal outline-none" hx-get="/admin/classic-records" hx-trigger="input changed delay:300ms" hx-target="#records-container" hx-swap="outerHTML" hx-select="#records-container"/>
 	</div>
-	<div id="records-container" class="border border-[#281818] rounded-xl overflow-hidden">
-		<table class="table-fixed text-white w-full">
+	<div id="records-container" class="border border-[#281818] rounded-xl overflow-x-auto">
+		<table class="table-fixed text-white min-w-[1168px] w-full">
 			<thead class="bg-[#1A0909] text-[#FFFFFF66] h-10.5 border-b border-[#281818]">
 				<tr>
 					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">PLAYER</th>
