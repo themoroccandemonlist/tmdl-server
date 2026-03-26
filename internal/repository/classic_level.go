@@ -10,8 +10,53 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/shopspring/decimal"
+	"github.com/themoroccandemonlist/tmdl-server/internal/dto"
 	"github.com/themoroccandemonlist/tmdl-server/internal/model"
 )
+
+func AdminGetAllClassicLevels(ctx context.Context, pool *pgxpool.Pool, limit int, offset int, search string) ([]dto.AdminClassicLevelRow, error) {
+	query := `
+		SELECT id, name, publisher, difficulty, ranking, points
+		FROM classic_levels
+		WHERE (name ILIKE '%' || $3 || '%' OR publisher ILIKE '%' || $3 || '%')
+		ORDER BY ranking
+		LIMIT $1 OFFSET $2
+	`
+
+	rows, err := pool.Query(ctx, query, limit, offset, search)
+	if err != nil {
+		return nil, fmt.Errorf("failed to query classic levels: %w", err)
+	}
+	defer rows.Close()
+
+	var levels []dto.AdminClassicLevelRow
+	for rows.Next() {
+		var row dto.AdminClassicLevelRow
+		if err := rows.Scan(&row.ID, &row.Name, &row.Publisher, &row.Difficulty, &row.Ranking, &row.Points); err != nil {
+			return nil, fmt.Errorf("failed to scan classic level row: %w", err)
+		}
+		levels = append(levels, row)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("row iteration error: %w", err)
+	}
+
+	return levels, nil
+}
+
+func GetClassicLevelsCount(ctx context.Context, pool *pgxpool.Pool) (int, error) {
+	query := `
+		SELECT COUNT(id)
+		FROM classic_levels
+	`
+
+	var count int
+	if err := pool.QueryRow(ctx, query).Scan(&count); err != nil {
+		return 0, fmt.Errorf("failed to count classic levels: %w", err)
+	}
+	return count, nil
+}
 
 func CreateClassicLevel(ctx context.Context, pool *pgxpool.Pool, level model.ClassicLevel) error {
 	query := `

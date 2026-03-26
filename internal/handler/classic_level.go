@@ -13,17 +13,35 @@ import (
 	"github.com/themoroccandemonlist/tmdl-server/internal/enum"
 	"github.com/themoroccandemonlist/tmdl-server/internal/model"
 	"github.com/themoroccandemonlist/tmdl-server/internal/repository"
+	"github.com/themoroccandemonlist/tmdl-server/internal/types"
 	"github.com/themoroccandemonlist/tmdl-server/internal/util"
 	"github.com/themoroccandemonlist/tmdl-server/internal/views/admin"
 )
 
-func (h *Handler) ListClassicLevels(w http.ResponseWriter , r *http.Request) {
+func (h *Handler) ListClassicLevels(w http.ResponseWriter, r *http.Request) {
+	const limit = 10
+	search := r.URL.Query().Get("search")
+	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+	if page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * limit
+	classicLevels, _ := repository.AdminGetAllClassicLevels(context.Background(), h.Config.Database, limit, offset, search)
+	classicLevelCount, _ := repository.GetClassicLevelsCount(context.Background(), h.Config.Database)
+	counts := types.DataCount{ClassicLevelCount: classicLevelCount}
+	end := offset + len(classicLevels)
+	start := offset + 1
+	if len(classicLevels) == 0 {
+		start = 0
+	}
+	totalPages := (classicLevelCount + limit - 1) / limit
+	pagination := types.Pagination{Start: start, End: end, Page: page, Total: classicLevelCount, TotalPages: totalPages}
 	csrfToken := csrf.TemplateField(r)
 	var err error
 	if IsHTMXRequest(r) {
-		err = admin.ClassicLevels(string(csrfToken)).Render(r.Context(), w)
+		err = admin.ClassicLevels(string(csrfToken), pagination, classicLevels).Render(r.Context(), w)
 	} else {
-		err = admin.Layout("Admin - Classic Levels", admin.ClassicLevels(string(csrfToken))).Render(r.Context(), w)
+		err = admin.Layout("Admin - Classic Levels", counts, admin.ClassicLevels(string(csrfToken), pagination, classicLevels)).Render(r.Context(), w)
 	}
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

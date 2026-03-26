@@ -1,0 +1,80 @@
+package components
+
+import (
+	"strconv"
+	"github.com/themoroccandemonlist/tmdl-server/internal/types"
+)
+
+templ Pagination(pagination types.Pagination, baseURL string) {
+	<div class="inline-flex items-center gap-1">
+		if pagination.Page > 1 {
+			<a
+				hx-get={ baseURL + "?page=" + strconv.Itoa(pagination.Page-1) }
+				hx-target="#levels-container"
+				hx-swap="outerHTML"
+				hx-select="#levels-container"
+				class="inline-flex justify-center items-center h-full px-1.5 rounded-sm text-xs text-[#808080] font-medium hover:text-[#EEEEEE] hover:bg-[#281818] cursor-pointer transition-colors"
+			>
+				Previous
+			</a>
+			<a
+				hx-get={ baseURL + "?page=" + strconv.Itoa(pagination.Page-1) }
+				hx-target="#levels-container"
+				hx-swap="outerHTML"
+				hx-select="#levels-container"
+				class="inline-flex justify-center items-center w-7 h-7 px-1.5 rounded-sm text-[#808080] hover:text-[#EEEEEE] hover:bg-[#281818] cursor-pointer transition-colors"
+			>
+				@ChevronLeft(14, 14)
+			</a>
+		} else {
+			<span class="inline-flex justify-center items-center px-1.5 h-full text-xs text-[#404040] font-medium leading-none cursor-not-allowed">
+				Previous
+			</span>
+			<span class="inline-flex justify-center items-center px-1.5 w-7 h-7 text-[#404040] cursor-not-allowed">
+				@ChevronLeft(14, 14)
+			</span>
+		}
+		for _, p := range pagination.Pages() {
+			if p == 0 {
+				<span class="flex justify-center items-center px-1.5 w-7 h-7 text-xs text-[#808080] font-medium cursor-not-allowed">...</span>
+			} else if p == pagination.Page {
+				<span class="inline-flex items-center justify-center px-1.5 w-7 h-7 rounded-sm text-xs font-medium text-[#FF2E2C] bg-[#C3020026] border border-[#C3020033] cursor-pointer">{ strconv.Itoa(p) }</span>
+			} else {
+				<a
+					hx-get={ baseURL + "?page=" + strconv.Itoa(p) }
+					hx-target="#levels-container"
+					hx-swap="outerHTML"
+					hx-select="#levels-container"
+					class="inline-flex items-center justify-center w-7 h-7 rounded-sm text-xs font-medium text-[#808080] hover:text-[#EEEEEE] hover:bg-[#281818] cursor-pointer transition-colors"
+				>{ strconv.Itoa(p) }</a>
+			}
+		}
+		if pagination.Page < pagination.TotalPages {
+			<a
+				hx-get={ baseURL + "?page=" + strconv.Itoa(pagination.Page+1) }
+				hx-target="#levels-container"
+				hx-swap="outerHTML"
+				hx-select="#levels-container"
+				class="inline-flex items-center px-1.5 w-7 h-7 rounded-sm text-[#808080] hover:text-[#EEEEEE] hover:bg-[#281818] cursor-pointer transition-colors"
+			>
+				@ChevronRight(14, 14)
+			</a>
+			<a
+				hx-get={ baseURL + "?page=" + strconv.Itoa(pagination.Page+1) }
+				hx-target="#levels-container"
+				hx-swap="outerHTML"
+				hx-select="#levels-container"
+				class="inline-flex items-center px-1.5 h-full rounded-sm text-xs font-medium text-[#808080] hover:text-[#EEEEEE] hover:bg-[#281818] cursor-pointer transition-colors"
+			>
+				Next
+			</a>
+		} else {
+			<span class="inline-flex items-center px-1.5 w-7 h-7 rounded-sm text-[#808080] opacity-40 cursor-not-allowed">
+				@ChevronRight(14, 14)
+			</span>
+			<span class="inline-flex items-center px-1.5 h-full rounded-sm text-xs font-medium text-[#808080] opacity-40 cursor-not-allowed">
+				Next
+			</span>
+		}
+	</div>
+}
