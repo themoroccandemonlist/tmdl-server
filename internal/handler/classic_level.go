@@ -27,8 +27,11 @@ func (h *Handler) ListClassicLevels(w http.ResponseWriter, r *http.Request) {
 	}
 	offset := (page - 1) * limit
 	classicLevels, _ := repository.AdminGetAllClassicLevels(context.Background(), h.Config.Database, limit, offset, search)
+
 	classicLevelCount, _ := repository.GetClassicLevelsCount(context.Background(), h.Config.Database)
-	counts := types.DataCount{ClassicLevelCount: classicLevelCount}
+	classicRecordCount, _ := repository.GetClassicRecordsCount(context.Background(), h.Config.Database)
+	counts := types.DataCount{ClassicLevelCount: classicLevelCount, ClassicRecordCount: classicRecordCount}
+
 	end := offset + len(classicLevels)
 	start := offset + 1
 	if len(classicLevels) == 0 {
