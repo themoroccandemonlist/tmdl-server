@@ -1,0 +1,1 @@
+CREATE TYPE device AS ENUM ('PC', 'MOBILE');
