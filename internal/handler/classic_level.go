@@ -188,7 +188,7 @@ func (h *Handler) CreateClassicLevel(w http.ResponseWriter, r *http.Request) {
 
 		var oldValue, newValue decimal.Decimal
 
-		if record.RecordPercentage == 100 {
+		if record.Progress == 100 {
 			oldValue = level.OldPoints
 			newValue = level.Points
 		} else {
