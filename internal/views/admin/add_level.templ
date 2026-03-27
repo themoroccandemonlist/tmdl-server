@@ -104,8 +104,20 @@ templ AddLevel(csrfToken string, activeTab string) {
 							<input type="text" name="youtube_link" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. https://youtu.be/iik25wqIuFo"/>
 						</div>
 						<div class="flex flex-col gap-2 col-span-2">
-							<label class="text-xs text-[#9F9FA9] font-medium">THUMBNAIL<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
-							<input type="file" name="thumbnail" accept="image/*" class="px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10 file:mr-3 file:bg-transparent file:border-0 file:text-[#808080] file:text-xs file:cursor-pointer cursor-pointer"/>
+							<label class="text-xs text-[#9F9FA9] font-medium">CUSTOM THUMBNAIL<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<label class="flex flex-col items-center gap-3 px-6 py-4 bg-[#110000] border border-dashed border-[#281818] rounded-lg cursor-pointer w-full">
+								<input type="file" name="thumbnail" accept="image/jpeg,image/png" class="hidden"/>
+								<div class="flex items-center justify-center w-10 h-10 rounded-full bg-[#FF2E2C] text-[#EEEEEE] shrink-0">
+									@components.CloudUpload(20, 20)
+								</div>
+								<div class="flex flex-col items-center gap-1 w-full">
+									<div class="flex items-center gap-1">
+										<span class="text-sm text-[#666666] font-medium">Click to upload</span>
+										<span class="text-sm text-[#333333] font-normal">or drag and drop</span>
+									</div>
+									<span class="text-xs text-[#333333] text-center font-normal">JPEG, PNG, GIF formats, Up to 5 MB.</span>
+								</div>
+							</label>
 						</div>
 					</div>
 				</form>
@@ -160,7 +172,7 @@ templ AddLevel(csrfToken string, activeTab string) {
 							<input type="text" name="youtube_link" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. https://youtu.be/iik25wqIuFo"/>
 						</div>
 						<div class="flex flex-col gap-2 col-span-2">
-							<label class="text-xs text-[#9F9FA9] font-medium">THUMBNAIL LINK<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
+							<label class="text-xs text-[#9F9FA9] font-medium">CUSTOM THUMBNAIL<span class="text-xs text-[#FB2C36] font-medium">*</span></label>
 							<input type="text" name="thumbnail_link" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10" placeholder="e.g. https://i.ytimg.com/vi/iik25wqIuFo/maxresdefault.jpg"/>
 						</div>
 					</div>
