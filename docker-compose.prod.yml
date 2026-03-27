@@ -5,6 +5,10 @@ services:
       - DB_USER
     environment:
       POSTGRES_DB: tmdl_db
+      POSTGRES_USER_FILE: /run/secrets/DB_USER
+      POSTGRES_PASSWORD_FILE: /run/secrets/DB_PASSWORD
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - app-network
 
@@ -12,6 +16,8 @@ services:
     secrets:
       - REDIS_PASSWORD
     command: sh -c 'redis-server --requirepass "$$(cat /run/secrets/REDIS_PASSWORD)"'
+    volumes:
+      - redis-data:/data
     networks:
       - app-network
 
@@ -28,7 +34,7 @@ services:
     environment:
       DB_HOST: postgresql
       DB_PORT: 5432
-      DB_NAME: themoroccandemonlist_db
+      DB_NAME: tmdl_db
       REDIS_ADDRESS: redis:6379
     ports:
       - target: 8080
@@ -42,10 +48,17 @@ services:
       - app-network
     deploy:
       replicas: 1
+      restart_policy:
+        condition: on-failure
 
 networks:
   app-network:
     driver: overlay
+    attachable: true
+
+volumes:
+  postgres-data:
+  redis-data:
 
 secrets:
   DB_USER:
