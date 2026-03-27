@@ -54,13 +54,7 @@ templ Navbar() {
 		if session, _ := ctx.Value("session").(types.SessionData) ; session.PlayerID != uuid.Nil {
 			<div class="relative z-10 flex justify-end w-[175px]">
 				<div class="flex justify-center items-center px-4">
-					if session.PlayerAvatar != "" {
-						<img src={ session.PlayerAvatar } alt={ session.PlayerUsername + "'s avatar" }/>
-					} else {
-						<div class="text-[#D0CFD3] w-10 h-10">
-							<img src="/static/assets/default-pfp.jpg" class="rounded-full"/>
-						</div>
-					}
+					@ProfilePopover(session.PlayerUsername, session.UserRoles, session.PlayerAvatar)
 				</div>
 			</div>
 		} else {

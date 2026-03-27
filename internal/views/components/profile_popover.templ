@@ -1,0 +1,72 @@
+package components
+
+import "slices"
+
+templ ProfilePopover(name string, roles []string, avatarURL string) {
+	<div x-data="{ open: false, menuY: 0 }">
+		<div
+			@click.stop="
+				let rect = $el.getBoundingClientRect();
+				menuY = rect.bottom + 10;
+				open = !open
+			"
+			class="cursor-pointer"
+		>
+			if avatarURL != "" {
+				<img src={ avatarURL } class="w-10 h-10 rounded-full object-cover" alt={ name + "'s avatar" }/>
+			} else {
+				<img src="/static/assets/default-pfp.jpg" class="w-10 h-10 rounded-full object-cover" alt="avatar"/>
+			}
+		</div>
+		<template x-teleport="body">
+			<div
+				x-show="open"
+				x-cloak
+				@click.outside="open = false"
+				:style="{ position: 'fixed', right: '52px', top: menuY + 'px', zIndex: 50 }"
+				class="w-[220px] bg-[#180808] border border-[#281818] rounded-lg overflow-hidden flex flex-col"
+			>
+				<div class="p-2">
+					<div class="flex gap-2 items-center p-2">
+						if avatarURL != "" {
+							<img src={ avatarURL } class="w-10 h-10 rounded-full object-cover shrink-0" alt=""/>
+						} else {
+							<img src="/static/assets/default-pfp.jpg" class="w-10 h-10 rounded-full object-cover shrink-0" alt=""/>
+						}
+						<span class="text-sm font-medium text-[#EEEEEE] leading-none">{ name }</span>
+					</div>
+				</div>
+				<div class="border-t border-b border-[#281818] p-2 flex flex-col gap-1">
+					if slices.Contains(roles, "CLASSIC_MODERATOR") || slices.Contains(roles, "PLATFORMER_MODERATOR") || slices.Contains(roles, "HEAD_MODERATOR") {
+						<a href="/admin/classic-levels" @click="open = false" class="flex gap-2 items-center px-3 py-2 rounded-lg text-[#CCCCCC] hover:bg-[rgba(128,128,128,0.2)] cursor-pointer">
+							<div class="shrink-0">
+								@Table(16, 16)
+							</div>
+							<span class="text-sm font-medium leading-none whitespace-nowrap">Dashboard</span>
+						</a>
+					}
+					<a href="/" @click="open = false" class="flex gap-2 items-center px-3 py-2 rounded-lg text-[#CCCCCC] hover:bg-[rgba(128,128,128,0.2)] cursor-pointer">
+						<div class="shrink-0">
+							@File(16, 16)
+						</div>
+						<span class="text-sm font-medium leading-none whitespace-nowrap">My Submissions</span>
+					</a>
+					<a href="/" @click="open = false" class="flex gap-2 items-center px-3 py-2 rounded-lg text-[#CCCCCC] hover:bg-[rgba(128,128,128,0.2)] cursor-pointer">
+						<div class="shrink-0">
+							@Users(16, 16)
+						</div>
+						<span class="text-sm font-medium leading-none whitespace-nowrap">My Profile</span>
+					</a>
+				</div>
+				<div class="p-2">
+					<a href="/logout" @click="open = false" class="flex gap-2 items-center px-3 py-2 rounded-lg text-[#808080] hover:bg-[rgba(128,128,128,0.2)] cursor-pointer w-full">
+						<div class="shrink-0">
+							@Logout(16, 16)
+						</div>
+						<span class="text-sm font-medium leading-none whitespace-nowrap">Log out</span>
+					</a>
+				</div>
+			</div>
+		</template>
+	</div>
+}
