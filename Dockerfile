@@ -1,10 +1,14 @@
 FROM golang:1.25-alpine AS builder
 WORKDIR /app
+RUN apk --no-cache add curl
 RUN go install github.com/a-h/templ/cmd/templ@latest
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN templ generate && \
+RUN curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64 && \
+    chmod +x tailwindcss-linux-x64 && \
+    ./tailwindcss-linux-x64 -i ./static/css/input.css -o ./static/css/output.css --minify && \
+    templ generate && \
     CGO_ENABLED=0 GOOS=linux go build -o /app/server ./cmd/web/main.go
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
