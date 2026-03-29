@@ -9,18 +9,19 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/shopspring/decimal"
+	"github.com/themoroccandemonlist/tmdl-server/internal/enum"
 	"github.com/themoroccandemonlist/tmdl-server/internal/model"
 )
 
 func GetPlayerByUserID(ctx context.Context, pool *pgxpool.Pool, userID uuid.UUID) (*model.Player, error) {
 	query := `
-		SELECT id, username, avatar, region_id
+		SELECT id, username, avatar, region_id, status
 		FROM players
 		WHERE user_id = $1
 	`
 
 	var player model.Player
-	err := pool.QueryRow(ctx, query, userID).Scan(&player.ID, &player.Username, &player.Avatar, &player.RegionID)
+	err := pool.QueryRow(ctx, query, userID).Scan(&player.ID, &player.Username, &player.Avatar, &player.RegionID, &player.Status)
 	if err != nil {
 		log.Printf("Unable to fetch resource: %v", err)
 		return nil, err
@@ -30,14 +31,14 @@ func GetPlayerByUserID(ctx context.Context, pool *pgxpool.Pool, userID uuid.UUID
 
 func CreatePlayer(ctx context.Context, pool *pgxpool.Pool, userID uuid.UUID) (*model.Player, error) {
 	query := `
-		INSERT INTO players (user_id)
-		VALUES ($1)
+		INSERT INTO players (user_id, status)
+		VALUES ($1, $2)
 		ON CONFLICT (user_id) DO NOTHING
-		RETURNING id, username, region_id
+		RETURNING id, username, region_id, status
 	`
 
 	var player model.Player
-	err := pool.QueryRow(ctx, query, userID).Scan(&player.ID, &player.Username, &player.RegionID)
+	err := pool.QueryRow(ctx, query, userID, enum.Setup).Scan(&player.ID, &player.Username, &player.RegionID, &player.Status)
 	if err != nil {
 		log.Printf("Unable to insert resource: %v", err)
 		return nil, err

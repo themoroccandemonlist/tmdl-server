@@ -10,16 +10,16 @@ import (
 
 func GetUserByEmailAndSub(ctx context.Context, pool *pgxpool.Pool, email string, sub string) (*model.User, error) {
 	query := `
-		SELECT u.id, u.email, u.sub, ARRAY_AGG(r.name) AS role_names, u.is_banned, u.is_deleted
+		SELECT u.id, u.email, u.sub, ARRAY_AGG(r.name) AS role_names, u.is_deleted
 		FROM users u
 		LEFT JOIN user_roles ur ON ur.user_id = u.id
 		LEFT JOIN roles r ON r.id = ur.role_id
 		WHERE u.email = $1 AND u.sub = $2
-		GROUP BY u.id, u.email, u.sub, u.is_banned, u.is_deleted;
+		GROUP BY u.id, u.email, u.sub, u.is_deleted;
 	`
 
 	var user model.User
-	err := pool.QueryRow(ctx, query, email, sub).Scan(&user.ID, &user.Email, &user.Sub, &user.Roles, &user.IsBanned, &user.IsDeleted)
+	err := pool.QueryRow(ctx, query, email, sub).Scan(&user.ID, &user.Email, &user.Sub, &user.Roles, &user.IsDeleted)
 	if err != nil {
 		log.Printf("Unable to fetch resource: %v", err)
 		return nil, err
@@ -39,8 +39,8 @@ func CreateUser(ctx context.Context, pool *pgxpool.Pool, email string, sub strin
 	err = tx.QueryRow(ctx, `
 		INSERT INTO users (email, sub)
 		VALUES ($1, $2)
-		RETURNING id, email, sub, is_banned, is_deleted
-	`, email, sub).Scan(&user.ID, &user.Email, &user.Sub, &user.IsBanned, &user.IsDeleted)
+		RETURNING id, email, sub, is_deleted
+	`, email, sub).Scan(&user.ID, &user.Email, &user.Sub, &user.IsDeleted)
 	if err != nil {
 		log.Printf("Unable to insert user: %v", err)
 		return nil, err
@@ -56,13 +56,13 @@ func CreateUser(ctx context.Context, pool *pgxpool.Pool, email string, sub strin
 	}
 
 	err = tx.QueryRow(ctx, `
-		SELECT u.id, u.email, u.sub, ARRAY_REMOVE(ARRAY_AGG(r.name), NULL) AS role_names, u.is_banned, u.is_deleted
+		SELECT u.id, u.email, u.sub, ARRAY_REMOVE(ARRAY_AGG(r.name), NULL) AS role_names, u.is_deleted
 		FROM users u
 		LEFT JOIN user_roles ur ON ur.user_id = u.id
 		LEFT JOIN roles r ON r.id = ur.role_id
 		WHERE u.id = $1
-		GROUP BY u.id, u.email, u.sub, u.is_banned, u.is_deleted
-	`, user.ID).Scan(&user.ID, &user.Email, &user.Sub, &user.Roles, &user.IsBanned, &user.IsDeleted)
+		GROUP BY u.id, u.email, u.sub, u.is_deleted
+	`, user.ID).Scan(&user.ID, &user.Email, &user.Sub, &user.Roles, &user.IsDeleted)
 	if err != nil {
 		log.Printf("Unable to fetch user: %v", err)
 		return nil, err

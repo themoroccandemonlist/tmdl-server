@@ -3,6 +3,7 @@ package model
 import (
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
+	"github.com/themoroccandemonlist/tmdl-server/internal/enum"
 )
 
 type Player struct {
@@ -18,5 +19,5 @@ type Player struct {
 	YouTube          *string
 	Twitter          *string
 	Twitch           *string
-	IsFlagged        bool
+	Status           enum.PlayerStatus
 }

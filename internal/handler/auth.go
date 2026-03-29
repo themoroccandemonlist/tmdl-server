@@ -79,10 +79,9 @@ func (h *Handler) Callback(w http.ResponseWriter, r *http.Request) {
 
 	session.Values["user_id"] = user.ID
 	session.Values["user_roles"] = user.Roles
-	session.Values["user_is_banned"] = user.IsBanned
 	session.Values["user_is_deleted"] = user.IsDeleted
+	session.Values["player_status"] = string(player.Status)
 	session.Values["player_id"] = player.ID
-	session.Values["player_avatar"] = player.Avatar
 	if player.Username == nil {
 		session.Values["player_username"] = ""
 	} else {

@@ -7,6 +7,5 @@ type User struct {
 	Email     string
 	Sub       string
 	Roles     []string
-	IsBanned  bool
 	IsDeleted bool
 }

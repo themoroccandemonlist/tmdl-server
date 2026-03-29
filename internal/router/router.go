@@ -32,11 +32,11 @@ func New() (*mux.Router, *handler.Handler) {
 
 	auth := r.PathPrefix("/").Subrouter()
 	auth.Use(middleware.RequireRole(h, "USER"))
-	auth.Use(middleware.RequireProfile(h))
+	auth.Use(middleware.RequireActivePlayer(h))
 
 	mod := r.PathPrefix("/admin").Subrouter()
 	mod.Use(middleware.RequireRole(h, "CLASSIC_MODERATOR", "PLATFORMER_MODERATOR", "HEAD_MODERATOR"))
-	// mod.Use(middleware.RequireProfile(h))
+	mod.Use(middleware.RequireActivePlayer(h))
 
 	r.HandleFunc("/", h.Home).Methods("GET")
 	r.HandleFunc("/login", h.Login).Methods("GET")

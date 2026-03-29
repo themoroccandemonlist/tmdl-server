@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS players (
     youtube VARCHAR(50) UNIQUE,
     twitter VARCHAR(50) UNIQUE,
     twitch VARCHAR(50) UNIQUE,
-    is_flagged BOOLEAN DEFAULT false
+    status player_status NOT NULL
 );

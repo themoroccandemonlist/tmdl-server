@@ -1,0 +1,1 @@
+CREATE TYPE player_status AS ENUM ('SETUP', 'ACTIVE', 'FLAGGED', 'BANNED');
