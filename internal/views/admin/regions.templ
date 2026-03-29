@@ -1,0 +1,54 @@
+package admin
+
+import "github.com/themoroccandemonlist/tmdl-server/internal/dto"
+import "github.com/themoroccandemonlist/tmdl-server/internal/util"
+
+templ Regions(regions []dto.AdminRegionRow) {
+	<div class="flex justify-start items-center">
+		<div class="flex flex-col gap-2">
+			<span class="justify-start text-2xl font-semibold text-[#FFFFFF]">Manage Regions</span>
+			<span class="justify-start text-sm font-medium text-[#BEBEBE99]">Review pending records and manage database entries.</span>
+		</div>
+	</div>
+	<div class="border border-[#281818] rounded-xl overflow-x-auto">
+		<table class="table-fixed text-white min-w-[1168px] w-full">
+			<thead class="bg-[#1A0909] text-[#FFFFFF66] h-10.5 border-b border-[#281818]">
+				<tr>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">REGION</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">PLAYERS</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">CLASSIC POINTS</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">PLATFORMER POINTS</th>
+				</tr>
+			</thead>
+			<tbody>
+				for _, region := range regions {
+					<tr class="bg-[#1F0F0F]">
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#EEEEEE] font-semibold">{ region.Name }</span>
+						</td>
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#EEEEEE] font-semibold">{ region.TotalPlayers }</span>
+						</td>
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#FFD700] font-semibold">{ util.FormatPoints(region.ClassicPoints) }</span>
+						</td>
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#4A9EFF] font-semibold">{ util.FormatPoints(region.PlatformerPoints) }</span>
+						</td>
+					</tr>
+				}
+			</tbody>
+			<tfoot>
+				<tr class="bg-[#1B0B0B]">
+					<td colspan="4" class="px-4 py-3">
+						<div class="flex justify-between">
+							<span class="flex justify-center items-center text-xs text-[#808080] font-medium leading-none">
+								Showing 1-12 of 12
+							</span>
+						</div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+}

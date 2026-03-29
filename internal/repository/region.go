@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/shopspring/decimal"
+	"github.com/themoroccandemonlist/tmdl-server/internal/dto"
 	"github.com/themoroccandemonlist/tmdl-server/internal/model"
 )
 
@@ -30,6 +31,36 @@ func GetAllRegionIDsAndNames(ctx context.Context, pool *pgxpool.Pool) ([]*model.
 		rows.Scan(&region.ID, &region.Name)
 		regions = append(regions, &region)
 	}
+	return regions, nil
+}
+
+func AdminGetAllRegions(ctx context.Context, pool *pgxpool.Pool) ([]dto.AdminRegionRow, error) {
+	query := `
+		SELECT r.id, r.name, COUNT(p.id) as total_players, r.classic_points, r.platformer_points
+		FROM regions r
+		LEFT JOIN players p ON p.region_id = r.id
+		GROUP BY r.id
+	`
+
+	rows, err := pool.Query(ctx, query)
+	if err != nil {
+		return nil, fmt.Errorf("failed to query regions: %w", err)
+	}
+	defer rows.Close()
+
+	var regions []dto.AdminRegionRow
+	for rows.Next() {
+		var row dto.AdminRegionRow
+		if err := rows.Scan(&row.ID, &row.Name, &row.TotalPlayers, &row.ClassicPoints, &row.PlatformerPoints); err != nil {
+			return nil, fmt.Errorf("failed to scan region row: %w", err)
+		}
+		regions = append(regions, row)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("row iteration error: %w", err)
+	}
+
 	return regions, nil
 }
 
