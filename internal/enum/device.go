@@ -18,5 +18,11 @@ func (d Device) IsValid() bool {
 }
 
 func FormatDevice(d Device) string {
-	return strings.ToUpper(strings.ToLower(string(d)))
+	s := string(d)
+
+	if s == "PC" {
+		return "PC"
+	}
+
+	return string(s[0]) + strings.ToLower(string(s[1:]))
 }
