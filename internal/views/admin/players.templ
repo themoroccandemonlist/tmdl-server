@@ -1,0 +1,90 @@
+package admin
+
+import "github.com/themoroccandemonlist/tmdl-server/internal/views/components"
+import "github.com/themoroccandemonlist/tmdl-server/internal/dto"
+import "github.com/themoroccandemonlist/tmdl-server/internal/enum"
+import "github.com/themoroccandemonlist/tmdl-server/internal/types"
+import "strconv"
+
+templ Players(csrfToken string, pagination types.Pagination, players []dto.AdminPlayerRow) {
+	<div class="inline-flex justify-between items-center">
+		<div class="flex flex-col gap-2">
+			<span class="justify-start text-2xl font-semibold text-[#FFFFFF]">Manage Players</span>
+			<span class="justify-start text-sm font-medium text-[#BEBEBE99]">Review pending records and manage database entries.</span>
+		</div>
+	</div>
+	<div class="inline-flex items-center gap-2.5 pl-4 pr-2.5 py-2 text-[#D0CFD3] bg-[#1A0A0A] border border-[#281818] rounded-lg h-9">
+		@components.Search(16, 16)
+		<input id="search" name="search" type="text" placeholder="Search by player name or level name" class="w-full h-9 placeholder:text-[#FFFFFF80] text-sm placeholder:font-normal outline-none" hx-get="/admin/classic-records" hx-trigger="input changed delay:300ms" hx-target="#records-container" hx-swap="outerHTML" hx-select="#records-container"/>
+	</div>
+	<div class="border border-[#281818] rounded-xl overflow-x-auto">
+		<table class="table-fixed text-white min-w-[1168px] w-full">
+			<thead class="bg-[#1A0909] text-[#FFFFFF66] h-10.5 border-b border-[#281818]">
+				<tr>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">PLAYER</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">REGION</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">CLASSIC POINTS</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">PLATFORMER POINTS</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">CLASSIC RECORDS</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">PLATFORMER RECORDS</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">STATUS</th>
+					<th class="text-left px-4 py-3 text-xs font-medium tracking-wide">ACTIONS</th>
+				</tr>
+			</thead>
+			<tbody>
+				for _, player := range players {
+					<tr class="bg-[#1F0F0F]">
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#FF2E2C] font-semibold">{ *player.Username }</span>
+						</td>
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#EEEEEE] font-semibold">{ player.Region.Name }</span>
+						</td>
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#FFD700] font-semibold">{ player.ClassicPoints.String() }</span>
+						</td>
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#FFD700] font-semibold">{ player.PlatformerPoints.String() }</span>
+						</td>
+						<td class="px-4 py-3">
+							<span class="text-sm text-[#4A9EFF] font-semibold">{ player.TotalClassicRecords }</span>
+						</td>
+						<td class="px-4 py-3">
+							// <span class="text-sm text-[#4A9EFF] font-semibold">{ player.TotalPlatformerRecords }</span>
+							<span class="text-sm text-[#4A9EFF] font-semibold">0</span>
+						</td>
+						<td class="px-4 py-3 text-[#EEEEEE]">
+							switch player.Status {
+								case enum.Setup:
+                                    <span class="whitespace-nowrap h-5.25 px-4 pt-0.75 pb-1 border rounded-full text-xs font-medium leading-none bg-[#733E0A26] border-[#894B004D] text-[#FDC700]">{ enum.FormatPlayerStatus(enum.Setup) }</span>
+								case enum.Active:
+                                    <span class="whitespace-nowrap h-5.25 px-4 pt-0.75 pb-1 border rounded-full text-xs font-medium leading-none bg-[#0D542B26] border-[#0166304D] text-[#05DF72]">{ enum.FormatPlayerStatus(enum.Active) }</span>
+								case enum.Flagged:
+                                    <span class="whitespace-nowrap h-5.25 px-4 pt-0.75 pb-1 border rounded-full text-xs font-medium leading-none bg-[#733E0A26] border-[#894B004D] text-[#FDC700]">{ enum.FormatPlayerStatus(enum.Flagged) }</span>
+								case enum.Banned:
+                                    <span class="whitespace-nowrap h-5.25 px-4 pt-0.75 pb-1 border rounded-full text-xs font-medium leading-none bg-[#82181A26] border-[#9F07124D] text-[#FF6467]">{ enum.FormatPlayerStatus(enum.Banned) }</span>
+							}
+						</td>
+						<td class="px-4 py-3">
+							<div class="text-[#EEEEEE] cursor-pointer">
+								@components.Ellipsis(16, 16)
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+			<tfoot>
+				<tr class="bg-[#1B0B0B]">
+					<td colspan="8" class="px-4 py-3">
+						<div class="flex justify-between">
+							<span class="flex justify-center items-center text-xs text-[#808080] font-medium leading-none">
+								Showing { strconv.Itoa(pagination.Start) }-{ strconv.Itoa(pagination.End) } of { strconv.Itoa(pagination.Total) }
+							</span>
+							@components.Pagination(pagination, "/admin/players")
+						</div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+}

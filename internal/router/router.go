@@ -51,6 +51,8 @@ func New() (*mux.Router, *handler.Handler) {
 
 	mod.HandleFunc("/regions", h.ListRegions).Methods("GET")
 
+	mod.HandleFunc("/players", h.ListPlayers).Methods("GET")
+
 	// auth.HandleFunc("/profile", nil).Methods("GET")
 	auth.HandleFunc("/profile-setup", h.ProfileSetup).Methods("GET")
 	auth.HandleFunc("/profile-setup", h.ProfileSetupSubmit).Methods("PATCH")

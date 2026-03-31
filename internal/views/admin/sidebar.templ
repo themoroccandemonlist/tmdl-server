@@ -28,7 +28,7 @@ templ Sidebar(counts types.DataCount) {
 						{Name: "Classic", Count: strconv.Itoa(counts.ClassicRecordCount), Href: "/admin/classic-records"},
 						{Name: "Platformer", Count: "300", Href: "/"},
 					}))
-					@NavItem("/", "Players", components.Users(16, 16))
+					@NavItem("/admin/players", "Players", components.Users(16, 16))
 					@NavItem("/", "Reports", components.Flag(16, 16))
 					@NavItem("/", "Submissions", components.File(16, 16))
 					@NavItem("/admin/regions", "Regions", components.Map(16, 16))

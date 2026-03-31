@@ -19,6 +19,6 @@ func (ps PlayerStatus) IsValid() bool {
 	return false
 }
 
-func (ps PlayerStatus) Format() string {
+func FormatPlayerStatus(ps PlayerStatus) string {
 	return string(ps[0]) + strings.ToLower(string(ps[1:]))
 }
