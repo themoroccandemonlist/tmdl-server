@@ -6,9 +6,26 @@ templ Layout(title string, content templ.Component) {
 	@Head(title) {
 		<body x-data="{ path: window.location.pathname }" class="min-h-dvh flex flex-col" :class="path === '/' ? 'bg-[url(/static/assets/background.png)] bg-no-repeat bg-[center_top]' : 'bg-none'">
 			@components.Navbar()
-			<main class="flex justify-center items-center w-screen">
+			<main class="flex flex-1 justify-center w-full">
 				@content
 			</main>
+			<footer class="inline-flex justify-between px-8 py-2 bg-[#FFFFFF0F] border-t border-[#FFFFFF24] w-full mt-42">
+				<span class="text-[11px] text-[#CFCCCC] font-normal w-[720px]">
+					The Moroccan Demonlist is an independent community project and is not affiliated with, endorsed by, or in any way officially connected to RobTop Games
+					or Geometry Dash. All trademarks and copyrights related to Geometry Dash and its properties are the sole property of RobTop Games AB.
+				</span>
+				<div class="inline-flex gap-8 justify-center items-center">
+					<div class="inline-flex gap-6 text-xs text-[#CFCCCC] font-normal">
+						<span class="cursor-pointer">Guidelines</span>
+						<span class="cursor-pointer">Staff</span>
+					</div>
+					<div class="bg-[#FFFFFF05] border border-[#FFFFFF0F] text-[#CFCCCC] p-1.5 rounded-md cursor-pointer">
+						<a href="https://discord.gg/jvjdNMHaN7" target="_blank">
+							@components.Discord(20, 20)
+						</a>
+					</div>
+				</div>
+			</footer>
 		</body>
 	}
 }
