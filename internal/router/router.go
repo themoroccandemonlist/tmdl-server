@@ -34,6 +34,10 @@ func New() (*mux.Router, *handler.Handler) {
 	auth.Use(middleware.RequireRole(h, "USER"))
 	auth.Use(middleware.RequireActivePlayer(h))
 
+	setup := r.PathPrefix("/").Subrouter()
+	setup.Use(middleware.RequireRole(h, "USER"))
+	setup.Use(middleware.RequireSetupStatus(h))
+
 	mod := r.PathPrefix("/admin").Subrouter()
 	mod.Use(middleware.RequireRole(h, "CLASSIC_MODERATOR", "PLATFORMER_MODERATOR", "HEAD_MODERATOR"))
 	mod.Use(middleware.RequireActivePlayer(h))
@@ -46,7 +50,6 @@ func New() (*mux.Router, *handler.Handler) {
 	mod.HandleFunc("/classic-levels", h.ListClassicLevels).Methods("GET")
 	mod.HandleFunc("/classic-levels", h.CreateClassicLevel).Methods("POST")
 
-
 	mod.HandleFunc("/classic-records", h.ListClassicRecords).Methods("GET")
 
 	mod.HandleFunc("/regions", h.ListRegions).Methods("GET")
@@ -55,6 +58,7 @@ func New() (*mux.Router, *handler.Handler) {
 
 	// auth.HandleFunc("/profile", nil).Methods("GET")
 	auth.HandleFunc("/profile-setup", h.ProfileSetup).Methods("GET")
+	setup.HandleFunc("/onboarding", h.Onboarding).Methods("GET")
 	auth.HandleFunc("/profile-setup", h.ProfileSetupSubmit).Methods("PATCH")
 
 	return r, h

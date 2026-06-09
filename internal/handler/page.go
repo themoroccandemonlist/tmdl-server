@@ -69,3 +69,13 @@ func (h *Handler) ProfileSetupSubmit(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("HX-Redirect", "/profile")
 	w.WriteHeader(http.StatusOK)
 }
+
+func (h *Handler) Onboarding(w http.ResponseWriter, r *http.Request) {
+	csrfToken := csrf.TemplateField(r)
+
+	err := views.Onboarding(string(csrfToken)).Render(r.Context(), w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}

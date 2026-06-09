@@ -5,13 +5,14 @@ import "strings"
 type Device string
 
 const (
-	PC     Device = "PC"
-	Mobile Device = "MOBILE"
+	PC          Device = "PC"
+	Mobile      Device = "MOBILE"
+	BothDevices Device = "BOTH"
 )
 
 func (d Device) IsValid() bool {
 	switch d {
-	case PC, Mobile:
+	case PC, Mobile, BothDevices:
 		return true
 	}
 	return false

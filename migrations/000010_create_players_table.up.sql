@@ -5,10 +5,13 @@ CREATE TABLE IF NOT EXISTS players (
     classic_points NUMERIC(8, 2) DEFAULT 0,
     platformer_points NUMERIC(8, 2) DEFAULT 0,
     avatar VARCHAR(255),
+    cover VARCHAR(255),
     region_id UUID REFERENCES regions(id) ON DELETE SET NULL,
     discord VARCHAR(50) UNIQUE,
     youtube VARCHAR(50) UNIQUE,
     twitter VARCHAR(50) UNIQUE,
     twitch VARCHAR(50) UNIQUE,
+    gamemode gamemode,
+    device device,
     status player_status NOT NULL
 );

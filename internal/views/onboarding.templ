@@ -1,0 +1,78 @@
+package views
+
+templ Onboarding(csrfToken string) {
+    @Head("Onboarding") {
+        <body x-data="{ step: 1 }" class="min-h-dvh flex justify-center items-center">
+            <div x-show="step === 1" class="inline-flex border border-[#281818] rounded-xl overflow-hidden">
+                <div class="flex flex-col p-6 justify-between w-[478px] h-[539px] bg-[#180808]">
+                    <div class="inline-flex gap-2 self-stretch">
+                        <span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+                        <span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+                        <span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+                        <span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+                    </div>
+                    <div class="flex flex-col gap-6">
+                        <div class="flex flex-col gap-4">
+                            <div class="flex justify-center items-center">
+                                <img src="/static/assets/73x73.png" width="73" height="73"/>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <span class="flex justify-center text-center text-2xl text-[#FFFFFF] font-semibold ">Welcome to<br>The Moroccan Demonlist</span>
+                                <span class="flex justify-center text-center text-base text-[#B3B3B3] font-medium">You've just joined The Moroccan Demonlist — home of Morocco's top Geometry Dash players. Let's set up your profile in under a minute.</span>
+                            </div>
+                        </div>
+                        <div class="inline-flex gap-2 justify-center flex-wrap">
+                            <span class="bg-[#FFD70026] px-4 py-1 border rounded-3xl border-[#FFD70080] text-sm font-medium text-[#FFD700] leading-[17px]">Track Records</span>
+                            <span class="bg-[#9B59B626] px-4 py-1 border rounded-3xl border-[#9B59B680] text-sm font-medium text-[#9B59B6] leading-[17px]">Climb The List</span>
+                            <span class="bg-[#FF8A1426] px-4 py-1 border rounded-3xl border-[#FF8A1480] text-sm font-medium text-[#FF8A14] leading-[17px]">Complete Packs</span>
+                            <span class="bg-[#2ECC7126] px-4 py-1 border rounded-3xl border-[#2ECC7180] text-sm font-medium text-[#2ECC71] leading-[17px]">Earn Badges</span>
+                        </div>
+                    </div>
+                    <div>
+                        <button @click="step += 1" class="w-full inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
+						    <span class="text-sm font-medium leading-none">Continue</span>
+					    </button>
+                    </div>
+                </div>
+                <img src="/static/assets/onboarding-card.png"/>
+            </div>
+
+            <div x-show="step === 2" class="inline-flex border border-[#281818] rounded-xl overflow-hidden">
+                <div class="flex flex-col p-6 justify-between w-[478px] h-[539px] bg-[#180808]">
+                    <div class="inline-flex gap-2 self-stretch">
+                        <span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+                        <span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+                        <span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+                        <span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+                    </div>
+                    <div class="flex flex-col gap-6">
+                        <div class="flex flex-col gap-4">
+                            <div class="flex justify-center items-center">
+                                <img src="/static/assets/73x73.png" width="73" height="73"/>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <span class="flex justify-center text-center text-2xl text-[#FFFFFF] font-semibold ">Welcome to<br>The Moroccan Demonlist</span>
+                                <span class="flex justify-center text-center text-base text-[#B3B3B3] font-medium">You've just joined The Moroccan Demonlist — home of Morocco's top Geometry Dash players. Let's set up your profile in under a minute.</span>
+                            </div>
+                        </div>
+                        <div class="inline-flex gap-2 justify-center flex-wrap">
+                            <span class="bg-[#FFD70026] px-4 py-1 border rounded-3xl border-[#FFD70080] text-sm font-medium text-[#FFD700] leading-[17px]">Track Records</span>
+                            <span class="bg-[#9B59B626] px-4 py-1 border rounded-3xl border-[#9B59B680] text-sm font-medium text-[#9B59B6] leading-[17px]">Climb The List</span>
+                            <span class="bg-[#FF8A1426] px-4 py-1 border rounded-3xl border-[#FF8A1480] text-sm font-medium text-[#FF8A14] leading-[17px]">Complete Packs</span>
+                            <span class="bg-[#2ECC7126] px-4 py-1 border rounded-3xl border-[#2ECC7180] text-sm font-medium text-[#2ECC71] leading-[17px]">Earn Badges</span>
+                        </div>
+                    </div>
+                    <div class="inline-flex gap-4">
+                        <button @click="step -= 1" class="basis-1/3 inline-flex gap-1 justify-center items-center text-[#CFCCCC] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#1A0A0A] border border-[#281818]">
+						    <span class="text-sm font-medium leading-none">Back</span>
+					    </button>
+                        <button @click="step += 1" class="basis-2/3 inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
+						    <span class="text-sm font-medium leading-none">Continue</span>
+					    </button>
+                    </div>
+                </div>
+                <img src="/static/assets/onboarding-card.png"/>
+            </div>
+        </body>
+    }
+}
