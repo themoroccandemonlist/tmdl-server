@@ -71,9 +71,14 @@ func (h *Handler) ProfileSetupSubmit(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) Onboarding(w http.ResponseWriter, r *http.Request) {
-	csrfToken := csrf.TemplateField(r)
+	regions, err := repository.GetAllRegionIDsAndNames(context.Background(), h.Config.Database)
+	if err != nil {
+		http.Error(w, "Failed to load regions", http.StatusInternalServerError)
+		return
+	}
 
-	err := views.Onboarding(string(csrfToken)).Render(r.Context(), w)
+	csrfToken := csrf.TemplateField(r)
+	err = views.Onboarding(string(csrfToken), regions).Render(r.Context(), w)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

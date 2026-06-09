@@ -1,78 +1,325 @@
 package views
 
-templ Onboarding(csrfToken string) {
-    @Head("Onboarding") {
-        <body x-data="{ step: 1 }" class="min-h-dvh flex justify-center items-center">
-            <div x-show="step === 1" class="inline-flex border border-[#281818] rounded-xl overflow-hidden">
-                <div class="flex flex-col p-6 justify-between w-[478px] h-[539px] bg-[#180808]">
-                    <div class="inline-flex gap-2 self-stretch">
-                        <span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
-                        <span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
-                        <span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
-                        <span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
-                    </div>
-                    <div class="flex flex-col gap-6">
-                        <div class="flex flex-col gap-4">
-                            <div class="flex justify-center items-center">
-                                <img src="/static/assets/73x73.png" width="73" height="73"/>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <span class="flex justify-center text-center text-2xl text-[#FFFFFF] font-semibold ">Welcome to<br>The Moroccan Demonlist</span>
-                                <span class="flex justify-center text-center text-base text-[#B3B3B3] font-medium">You've just joined The Moroccan Demonlist — home of Morocco's top Geometry Dash players. Let's set up your profile in under a minute.</span>
-                            </div>
-                        </div>
-                        <div class="inline-flex gap-2 justify-center flex-wrap">
-                            <span class="bg-[#FFD70026] px-4 py-1 border rounded-3xl border-[#FFD70080] text-sm font-medium text-[#FFD700] leading-[17px]">Track Records</span>
-                            <span class="bg-[#9B59B626] px-4 py-1 border rounded-3xl border-[#9B59B680] text-sm font-medium text-[#9B59B6] leading-[17px]">Climb The List</span>
-                            <span class="bg-[#FF8A1426] px-4 py-1 border rounded-3xl border-[#FF8A1480] text-sm font-medium text-[#FF8A14] leading-[17px]">Complete Packs</span>
-                            <span class="bg-[#2ECC7126] px-4 py-1 border rounded-3xl border-[#2ECC7180] text-sm font-medium text-[#2ECC71] leading-[17px]">Earn Badges</span>
-                        </div>
-                    </div>
-                    <div>
-                        <button @click="step += 1" class="w-full inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
-						    <span class="text-sm font-medium leading-none">Continue</span>
-					    </button>
-                    </div>
-                </div>
-                <img src="/static/assets/onboarding-card.png"/>
-            </div>
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/themoroccandemonlist/tmdl-server/internal/model"
+	"github.com/themoroccandemonlist/tmdl-server/internal/views/components"
+)
 
-            <div x-show="step === 2" class="inline-flex border border-[#281818] rounded-xl overflow-hidden">
-                <div class="flex flex-col p-6 justify-between w-[478px] h-[539px] bg-[#180808]">
-                    <div class="inline-flex gap-2 self-stretch">
-                        <span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
-                        <span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
-                        <span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
-                        <span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
-                    </div>
-                    <div class="flex flex-col gap-6">
-                        <div class="flex flex-col gap-4">
-                            <div class="flex justify-center items-center">
-                                <img src="/static/assets/73x73.png" width="73" height="73"/>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <span class="flex justify-center text-center text-2xl text-[#FFFFFF] font-semibold ">Welcome to<br>The Moroccan Demonlist</span>
-                                <span class="flex justify-center text-center text-base text-[#B3B3B3] font-medium">You've just joined The Moroccan Demonlist — home of Morocco's top Geometry Dash players. Let's set up your profile in under a minute.</span>
-                            </div>
-                        </div>
-                        <div class="inline-flex gap-2 justify-center flex-wrap">
-                            <span class="bg-[#FFD70026] px-4 py-1 border rounded-3xl border-[#FFD70080] text-sm font-medium text-[#FFD700] leading-[17px]">Track Records</span>
-                            <span class="bg-[#9B59B626] px-4 py-1 border rounded-3xl border-[#9B59B680] text-sm font-medium text-[#9B59B6] leading-[17px]">Climb The List</span>
-                            <span class="bg-[#FF8A1426] px-4 py-1 border rounded-3xl border-[#FF8A1480] text-sm font-medium text-[#FF8A14] leading-[17px]">Complete Packs</span>
-                            <span class="bg-[#2ECC7126] px-4 py-1 border rounded-3xl border-[#2ECC7180] text-sm font-medium text-[#2ECC71] leading-[17px]">Earn Badges</span>
-                        </div>
-                    </div>
-                    <div class="inline-flex gap-4">
-                        <button @click="step -= 1" class="basis-1/3 inline-flex gap-1 justify-center items-center text-[#CFCCCC] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#1A0A0A] border border-[#281818]">
-						    <span class="text-sm font-medium leading-none">Back</span>
-					    </button>
-                        <button @click="step += 1" class="basis-2/3 inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
-						    <span class="text-sm font-medium leading-none">Continue</span>
-					    </button>
-                    </div>
-                </div>
-                <img src="/static/assets/onboarding-card.png"/>
-            </div>
-        </body>
-    }
+func onboardingXData(regions []*model.Region) string {
+	type opt struct {
+		Value string `json:"value"`
+		Label string `json:"label"`
+	}
+	opts := make([]opt, len(regions))
+	for i, r := range regions {
+		opts[i] = opt{Value: r.ID.String(), Label: r.Name}
+	}
+	b, _ := json.Marshal(opts)
+	return fmt.Sprintf(
+		`{ step: 1, username: '', discord: '', youtube: '', twitter: '', twitch: '', gamemode: 'CLASSIC', device: 'PC' , usernameError: false, region: '', regionError: false, regionOpen: false, regionHighlighted: '', regionLastKey: '', regionMatchIndex: 0, regionOptions: %s, handleRegionKey(e) { if (!this.regionOpen) return; if (e.key.length === 1 && /[a-z]/i.test(e.key)) { const key = e.key.toLowerCase(); const matches = this.regionOptions.filter(o => o.label.toLowerCase().startsWith(key)); if (matches.length === 0) return; if (key !== this.regionLastKey) { this.regionLastKey = key; this.regionMatchIndex = 0; } else { this.regionMatchIndex = (this.regionMatchIndex + 1) %% matches.length; } const match = matches[this.regionMatchIndex]; this.regionHighlighted = match.value; this.$nextTick(() => { const el = this.$refs.regionList?.querySelector('[data-value="' + match.value + '"]'); el?.scrollIntoView({ block: 'nearest' }); }); } } }`,
+		string(b),
+	)
+}
+
+templ Onboarding(csrfToken string, regions []*model.Region) {
+	@Head("Onboarding") {
+		<body x-data={ onboardingXData(regions) } @keydown.window="handleRegionKey($event)" class="min-h-dvh flex justify-center items-center">
+			<form hx-post="/create-profile">
+				<div class="inline-flex border border-[#281818] rounded-xl overflow-hidden">
+					<div x-show="step === 1" class="flex flex-col p-6 justify-between w-[478px] h-[539px] bg-[#180808]">
+						<div class="inline-flex gap-2 self-stretch">
+							<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+							<span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+							<span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+							<span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+							<span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+						</div>
+						<div class="flex flex-col gap-6">
+							<div class="flex flex-col gap-4">
+								<div class="flex justify-center items-center">
+									<img src="/static/assets/73x73.png" width="73" height="73"/>
+								</div>
+								<div class="flex flex-col gap-2">
+									<span class="flex justify-center text-center text-2xl text-[#FFFFFF] font-semibold ">Welcome to<br/>The Moroccan Demonlist</span>
+									<span class="flex justify-center text-center text-base text-[#B3B3B3] font-medium">You've just joined The Moroccan Demonlist — home of Morocco's top Geometry Dash players. Let's set up your profile in under a minute.</span>
+								</div>
+							</div>
+							<div class="inline-flex gap-2 justify-center flex-wrap">
+								<span class="bg-[#FFD70026] px-4 py-1 border rounded-3xl border-[#FFD70080] text-sm font-medium text-[#FFD700] leading-[17px]">Track Records</span>
+								<span class="bg-[#9B59B626] px-4 py-1 border rounded-3xl border-[#9B59B680] text-sm font-medium text-[#9B59B6] leading-[17px]">Climb The List</span>
+								<span class="bg-[#FF8A1426] px-4 py-1 border rounded-3xl border-[#FF8A1480] text-sm font-medium text-[#FF8A14] leading-[17px]">Complete Packs</span>
+								<span class="bg-[#2ECC7126] px-4 py-1 border rounded-3xl border-[#2ECC7180] text-sm font-medium text-[#2ECC71] leading-[17px]">Earn Badges</span>
+							</div>
+						</div>
+						<div>
+							<button @click="step += 1" class="w-full inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
+								<span class="text-sm font-medium leading-none">Continue</span>
+							</button>
+						</div>
+					</div>
+					<div x-show="step === 2" class="flex flex-col p-6 justify-between w-[478px] h-[539px] bg-[#180808] rounded-l-xl">
+						<div class="flex flex-col gap-8">
+							<div class="inline-flex gap-2 self-stretch">
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+							</div>
+							<div class="flex justify-start">
+								<span class="text-2xl font-semibold text-[#FFFFFF] leading-[29px]">Let's create your profile</span>
+							</div>
+							<div class="flex flex-col gap-4">
+								<span class="text-xs font-medium text-[#FF6467]" :class="usernameError || regionError ? 'visible' : 'invisible'">Make sure to fill all the required fields.</span>
+								<div class="inline-flex gap-4">
+									<div class="flex flex-col gap-2 flex-1">
+										<span class="text-sm font-medium text-[#B3B3B3]">PROFILE PICTURE</span>
+										<div class="inline-flex gap-2">
+											<div class="relative cursor-pointer">
+												<img class="rounded-full size-16 cursor-pointer" src="/static/assets/default-pfp.jpg"/>
+												<div class="absolute inset-0 flex items-center justify-center text-[#B3B3B3] bg-[#00000099] border border-[#B3B3B366] rounded-full">
+													@components.Camera(16, 16)
+												</div>
+											</div>
+											<span class="text-xs font-medium text-[#FF6467] text-center self-center cursor-pointer">Remove</span>
+										</div>
+									</div>
+									<div class="flex flex-col gap-2 flex-1">
+										<span class="text-sm font-medium text-[#B3B3B3]">COVER PICTURE</span>
+										<div class="inline-flex gap-2">
+											<div class="relative cursor-pointer">
+												<img class="rounded-lg h-16 w-[100px] cursor-pointer object-cover" src="/static/assets/default-cover.png"/>
+												<div class="absolute inset-0 flex items-center justify-center text-[#B3B3B3] bg-[#00000099] border border-[#B3B3B366] rounded-lg">
+													@components.Camera(16, 16)
+												</div>
+											</div>
+											<span class="text-xs font-medium text-[#FF6467] text-center self-center cursor-pointer">Remove</span>
+										</div>
+									</div>
+								</div>
+								<div class="flex flex-col gap-2">
+									<label class="text-sm text-[#B3B3B3] font-medium">USERNAME<span class="text-sm text-[#FF2E2C] font-medium">*</span></label>
+									<input x-model="username" @blur="usernameError = username.trim() === ''" type="text" name="username" placeholder="laggypotato" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border rounded-lg bg-[#110000] h-10" :class="usernameError ? 'border-[#FF6467]' : 'border-[#281818]'"/>
+									<span class="text-xs font-medium text-[#FF6467]">Username is already taken.</span>
+								</div>
+								<div class="flex flex-col gap-2">
+									<label class="text-sm text-[#B3B3B3] font-medium">REGION<span class="text-sm text-[#FF2E2C] font-medium">*</span></label>
+									<div class="relative" @focusout="if (!$el.contains($event.relatedTarget) && !region) regionError = true">
+										<button type="button" @click="regionOpen = !regionOpen" class="w-full flex items-center justify-between px-4 h-10 border rounded-lg bg-[#110000] text-sm cursor-pointer text-[#EEEEEE]" :class="regionError ? 'border-[#FF6467]' : 'border-[#281818]'">
+											<span x-text="region ? regionOptions.find(o => o.value === region)?.label : 'Select a region'" :class="region ? 'text-white' : 'text-[#EEEEEE]'"></span>
+											@components.ChevronDown(16, 16)
+										</button>
+										<div x-ref="regionList" x-show="regionOpen" @click.outside="regionOpen = false" class="absolute z-10 w-full mt-1 p-2 border border-[#281818] rounded-xl bg-[#110000] max-h-48 overflow-y-auto">
+											<template x-for="option in regionOptions" :key="option.value">
+												<div
+													@click="region = option.value; regionOpen = false; regionSearch = ''; regionHighlighted = ''; regionError = false"
+													:data-value="option.value"
+													class="p-2 text-sm font-medium text-[#CCCCCC] rounded-lg cursor-pointer"
+													:class="option.value === regionHighlighted ? 'bg-[#CCCCCC33] text-[#EEEEEE]' : 'text-[#CCCCCC] hover:bg-[#CCCCCC33] hover:text-[#EEEEEE]'"
+													x-text="option.label"
+												></div>
+											</template>
+										</div>
+									</div>
+									<input type="hidden" name="region" :value="region"/>
+								</div>
+								<span class="text-xs font-medium text-[#B3B3B3]"><span class="text-[#FF2E2C]">*</span>Required fields.</span>
+							</div>
+						</div>
+						<div class="inline-flex gap-4">
+							<button @click="step -= 1" class="basis-1/3 inline-flex gap-1 justify-center items-center text-[#CFCCCC] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#1A0A0A] border border-[#281818]">
+								<span class="text-sm font-medium leading-none">Back</span>
+							</button>
+							<button @click="if (username.trim() === '') { usernameError = true; return; } if (!region) { regionError = true; return; } step += 1" class="basis-2/3 inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
+								<span class="text-sm font-medium leading-none">Continue</span>
+							</button>
+						</div>
+					</div>
+					<div x-show="step === 3" class="flex flex-col p-6 justify-between w-[478px] h-[539px] bg-[#180808] rounded-l-xl">
+						<div class="flex flex-col gap-8">
+							<div class="inline-flex gap-2 self-stretch">
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+							</div>
+							<div class="flex justify-start">
+								<span class="text-2xl font-semibold text-[#FFFFFF] leading-[29px]">Link your social accounts</span>
+							</div>
+							<div class="flex flex-col gap-4">
+								<div class="flex flex-col gap-2">
+									<label class="text-sm text-[#B3B3B3] font-medium">DISCORD</label>
+									<input x-model="discord" type="text" name="discord" placeholder="laggypotato" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10"/>
+								</div>
+								<div class="flex flex-col gap-2">
+									<label class="text-sm text-[#B3B3B3] font-medium">YOUTUBE</label>
+									<input x-model="youtube" type="text" name="youtube" placeholder="@laggypotato" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10"/>
+								</div>
+								<div class="flex flex-col gap-2">
+									<label class="text-sm text-[#B3B3B3] font-medium">TWITTER/X</label>
+									<input x-model="twitter" type="text" name="twitter" placeholder="laggypotato" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10"/>
+								</div>
+								<div class="flex flex-col gap-2">
+									<label class="text-sm text-[#B3B3B3] font-medium">TWITCH</label>
+									<input x-model="twitch" type="text" name="twitch" placeholder="laggypotato" class="placeholder:text-[#333333] px-4 py-2 outline-none text-white border border-[#281818] rounded-lg bg-[#110000] h-10"/>
+								</div>
+							</div>
+						</div>
+						<div class="inline-flex gap-4">
+							<button @click="step -= 1" class="basis-1/3 inline-flex gap-1 justify-center items-center text-[#CFCCCC] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#1A0A0A] border border-[#281818]">
+								<span class="text-sm font-medium leading-none">Back</span>
+							</button>
+							<button @click="step += 1" class="basis-2/3 inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
+								<span class="text-sm font-medium leading-none">Continue</span>
+							</button>
+						</div>
+					</div>
+					<div x-show="step === 4" class="flex flex-col p-6 justify-between w-[478px] h-[539px] bg-[#180808] rounded-l-xl">
+						<div class="flex flex-col gap-8">
+							<div class="inline-flex gap-2 self-stretch">
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#281818]"></span>
+							</div>
+							<div class="flex flex-col gap-2 justify-start">
+								<span class="text-2xl font-semibold text-[#FFFFFF] leading-[29px]">Your gamemode</span>
+								<span class="text-sm font-medium text-[#B3B3B3] leading-[17px]">Which gamemode do you mainly play?</span>
+							</div>
+							<div class="inline-flex gap-4">
+								<button type="button" @click="gamemode = 'CLASSIC'" class="w-[132px] flex flex-col items-center justify-center gap-2 px-2 py-6 rounded-lg border cursor-pointer" :class="gamemode === 'CLASSIC' ? 'border-[#FF2E2C] bg-[#FF2E2C0A]' : 'border-[#281818] bg-[#110000]'">
+									<div class="p-1 rounded-md" :class="gamemode === 'CLASSIC' ? 'text-[#FF2E2C] bg-[#FF2E2C26]' : 'text-[#4D4D4D] bg-[#B3B3B326]'">
+										@components.Gamepad(16, 16)
+									</div>
+									<span class="text-sm font-medium" :class="gamemode === 'CLASSIC' ? 'text-[#FF2E2C]' : 'text-[#4D4D4D]'">Classic</span>
+								</button>
+								<button type="button" @click="gamemode = 'PLATFORMER'" class="w-[132px] flex flex-col items-center justify-center gap-2 px-2 py-6 rounded-lg border cursor-pointer" :class="gamemode === 'PLATFORMER' ? 'border-[#FF2E2C] bg-[#FF2E2C0A]' : 'border-[#281818] bg-[#110000]'">
+									<div class="p-1 rounded-md" :class="gamemode === 'PLATFORMER' ? 'text-[#FF2E2C] bg-[#FF2E2C26]' : 'text-[#4D4D4D] bg-[#B3B3B326]'">
+										@components.Joystick(16, 16)
+									</div>
+									<span class="text-sm font-medium" :class="gamemode === 'PLATFORMER' ? 'text-[#FF2E2C]' : 'text-[#4D4D4D]'">Platformer</span>
+								</button>
+								<button type="button" @click="gamemode = 'BOTH'" class="w-[132px] flex flex-col items-center justify-center gap-2 px-2 py-6 rounded-lg border cursor-pointer" :class="gamemode === 'BOTH' ? 'border-[#FF2E2C] bg-[#FF2E2C0A]' : 'border-[#281818] bg-[#110000]'">
+									<div class="inline-flex gap-2">
+										<span class="p-1 rounded-md" :class="gamemode === 'BOTH' ? 'text-[#FF2E2C] bg-[#FF2E2C26]' : 'text-[#4D4D4D] bg-[#B3B3B326]'">
+											@components.Gamepad(16, 16)
+										</span>
+										<span class="p-1 rounded-md" :class="gamemode === 'BOTH' ? 'text-[#FF2E2C] bg-[#FF2E2C26]' : 'text-[#4D4D4D] bg-[#B3B3B326]'">
+											@components.Joystick(16, 16)
+										</span>
+									</div>
+									<span class="text-sm font-medium" :class="gamemode === 'BOTH' ? 'text-[#FF2E2C]' : 'text-[#4D4D4D]'">Both</span>
+								</button>
+							</div>
+							<input type="hidden" name="gamemode" :value="gamemode"/>
+						</div>
+						<div class="inline-flex gap-4">
+							<button @click="step -= 1" class="basis-1/3 inline-flex gap-1 justify-center items-center text-[#CFCCCC] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#1A0A0A] border border-[#281818]">
+								<span class="text-sm font-medium leading-none">Back</span>
+							</button>
+							<button @click="step += 1" class="basis-2/3 inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
+								<span class="text-sm font-medium leading-none">Continue</span>
+							</button>
+						</div>
+					</div>
+					<div x-show="step === 5" class="flex flex-col p-6 justify-between w-[478px] h-[539px] bg-[#180808] rounded-l-xl">
+						<div class="flex flex-col gap-8">
+							<div class="inline-flex gap-2 self-stretch">
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+								<span class="flex-1 h-1 rounded-[14px] bg-[#FF2E2C]"></span>
+							</div>
+							<div class="flex flex-col gap-2 justify-start">
+								<span class="text-2xl font-semibold text-[#FFFFFF] leading-[29px]">Your device</span>
+								<span class="text-sm font-medium text-[#B3B3B3] leading-[17px]">Which device do you mainly play with?</span>
+							</div>
+							<div class="inline-flex gap-4">
+								<button type="button" @click="device = 'PC'" class="w-[132px] flex flex-col items-center justify-center gap-2 px-2 py-6 rounded-lg border cursor-pointer" :class="device === 'PC' ? 'border-[#FF2E2C] bg-[#FF2E2C0A]' : 'border-[#281818] bg-[#110000]'">
+									<div class="p-1 rounded-md" :class="device === 'PC' ? 'text-[#FF2E2C] bg-[#FF2E2C26]' : 'text-[#4D4D4D] bg-[#B3B3B326]'">
+										@components.Computer(16, 16)
+									</div>
+									<span class="text-sm font-medium" :class="device === 'PC' ? 'text-[#FF2E2C]' : 'text-[#4D4D4D]'">PC</span>
+								</button>
+								<button type="button" @click="device = 'MOBILE'" class="w-[132px] flex flex-col items-center justify-center gap-2 px-2 py-6 rounded-lg border cursor-pointer" :class="device === 'MOBILE' ? 'border-[#FF2E2C] bg-[#FF2E2C0A]' : 'border-[#281818] bg-[#110000]'">
+									<div class="p-1 rounded-md" :class="device === 'MOBILE' ? 'text-[#FF2E2C] bg-[#FF2E2C26]' : 'text-[#4D4D4D] bg-[#B3B3B326]'">
+										@components.Smartphone(16, 16)
+									</div>
+									<span class="text-sm font-medium" :class="device === 'MOBILE' ? 'text-[#FF2E2C]' : 'text-[#4D4D4D]'">Mobile</span>
+								</button>
+								<button type="button" @click="device = 'BOTH'" class="w-[132px] flex flex-col items-center justify-center gap-2 px-2 py-6 rounded-lg border cursor-pointer" :class="device === 'BOTH' ? 'border-[#FF2E2C] bg-[#FF2E2C0A]' : 'border-[#281818] bg-[#110000]'">
+									<div class="inline-flex gap-2">
+										<span class="p-1 rounded-md" :class="device === 'BOTH' ? 'text-[#FF2E2C] bg-[#FF2E2C26]' : 'text-[#4D4D4D] bg-[#B3B3B326]'">
+											@components.Computer(16, 16)
+										</span>
+										<span class="p-1 rounded-md" :class="device === 'BOTH' ? 'text-[#FF2E2C] bg-[#FF2E2C26]' : 'text-[#4D4D4D] bg-[#B3B3B326]'">
+											@components.Smartphone(16, 16)
+										</span>
+									</div>
+									<span class="text-sm font-medium" :class="device === 'BOTH' ? 'text-[#FF2E2C]' : 'text-[#4D4D4D]'">Both</span>
+								</button>
+							</div>
+							<input type="hidden" name="device" :value="device"/>
+						</div>
+						<div class="inline-flex gap-4">
+							<button type="button" @click="step -= 1" class="basis-1/3 inline-flex gap-1 justify-center items-center text-[#CFCCCC] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#1A0A0A] border border-[#281818]">
+								<span class="text-sm font-medium leading-none">Back</span>
+							</button>
+							<button type="submit" class="basis-2/3 inline-flex gap-1 justify-center items-center text-[#FFFFFF] rounded-3xl pl-4.5 pr-5.5 py-2.5 cursor-pointer h-9.5 bg-[#FF2E2C] shadow-[0px_8px_16px_rgba(255,46,44,0.2),0px_-1px_2px_#ff2e2c_inset,0px_-6px_6px_rgba(255,255,255,0.25)_inset,0px_5px_12.6px_#c30200_inset]">
+								<span class="text-sm font-medium leading-none">Finish</span>
+							</button>
+						</div>
+					</div>
+					<div class="relative">
+						<img src="/static/assets/onboarding-card.png"/>
+						<div x-show="step != 1" class="absolute inset-0 flex items-center justify-center">
+							<div class="inline-flex gap-2 items-center px-4 pt-8 pb-2 h-[122px] w-[430px] border border-[#281818] rounded-xl bg-[linear-gradient(0deg,rgba(17,0,0,0.70)_0%,rgba(17,0,0,0.20)_100%),linear-gradient(180deg,rgba(17,0,0,0.00)_-7.77%,rgba(17,0,0,0.60)_53.31%),url(/static/assets/default-cover.png)] bg-cover bg-center bg-no-repeat">
+								<img class="rounded-full size-16 cursor-pointer" src="/static/assets/default-pfp.jpg"/>
+								<div class="flex flex-col gap-2">
+									<div class="inline-flex gap-2">
+                                        <div x-show="gamemode === 'CLASSIC' || gamemode ==='BOTH'" class="inline-flex gap-1.25 px-2 h-[26px] text-xs font-medium text-[#FF2E2C] bg-[#C3020026] border border-[#C3020040] rounded-4xl">
+                                            <span class="flex items-center">@components.Gamepad(12, 12)</span>
+                                            <span class="flex items-center">Classic</span>
+                                        </div>
+                                        <div x-show="gamemode === 'PLATFORMER' || gamemode ==='BOTH'" class="inline-flex gap-1.25 px-2 h-[26px] text-xs font-medium text-[#4A9EFF] bg-[#4A9EFF26] border border-[#4A9EFF40] rounded-4xl">
+                                            <span class="flex items-center">@components.Joystick(12, 12)</span>
+                                            <span class="flex items-center">Platformer</span>
+                                        </div>
+                                    </div>
+									<div class="inline-flex gap-2 items-center">
+										<span x-text="username.trim() !== '' ? username : 'laggypotato'" class="text-xl font-semibold text-[#FFFFFF]"></span>
+										<div class="inline-flex gap-2 pt-1">
+											<span class="text-[#EEEEEE]" x-show="discord.trim() !== ''">
+												@components.DiscordFull(12, 12)
+											</span>
+											<span class="text-[#EEEEEE]" x-show="youtube.trim() !== ''">
+												@components.YouTubeFull(12, 12)
+											</span>
+											<span class="text-[#EEEEEE]" x-show="twitter.trim() !== ''">
+												@components.TwitterFull(12, 12)
+											</span>
+											<span class="text-[#EEEEEE]" x-show="twitch.trim() !== ''">
+												@components.TwitchFull(12, 12)
+											</span>
+										</div>
+									</div>
+									<div class="inline-flex gap-1 text-[#666666]">
+										<div class="flex justify-center items-center leading-none">
+											@components.Location(12, 12)
+										</div>
+										<span x-text="regionOptions.find(o => o.value === region)?.label ?? 'Morocco'" class="text-xs font-medium leading-none"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</body>
+	}
 }

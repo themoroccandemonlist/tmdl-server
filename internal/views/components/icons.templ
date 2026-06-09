@@ -317,11 +317,10 @@ templ Smartphone(width int, height int) {
 }
 
 templ Computer(width int, height int) {
-	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-computer-icon lucide-computer">
-		<rect width="14" height="8" x="5" y="2" rx="2"></rect>
-		<rect width="20" height="8" x="2" y="14" rx="2"></rect>
-		<path d="M6 18h2"></path>
-		<path d="M12 18h6"></path>
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-monitor-icon lucide-monitor">
+		<rect width="20" height="14" x="2" y="3" rx="2"></rect>
+		<line x1="8" x2="16" y1="21" y2="21"></line>
+		<line x1="12" x2="12" y1="17" y2="21"></line>
 	</svg>
 }
 
@@ -394,5 +393,45 @@ templ Discord(width int, height int) {
 		<path d="M14.5839 13.9583C14.5839 13.9583 12.6713 15.2083 10.0006 15.2083C7.3298 15.2083 5.41724 13.9583 5.41724 13.9583" stroke="#CFCCCC" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"></path>
 		<path d="M14.3757 10.2084C14.3757 11.1289 13.7227 11.8751 12.9173 11.8751C12.1119 11.8751 11.459 11.1289 11.459 10.2084C11.459 9.28791 12.1119 8.54175 12.9173 8.54175C13.7227 8.54175 14.3757 9.28791 14.3757 10.2084Z" stroke="#CFCCCC" stroke-width="1.25"></path>
 		<path d="M8.54216 10.2084C8.54216 11.1289 7.88924 11.8751 7.08382 11.8751C6.27841 11.8751 5.62549 11.1289 5.62549 10.2084C5.62549 9.28791 6.27841 8.54175 7.08382 8.54175C7.88924 8.54175 8.54216 9.28791 8.54216 10.2084Z" stroke="#CFCCCC" stroke-width="1.25"></path>
+	</svg>
+}
+
+templ Location(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin-icon lucide-map-pin">
+		<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
+		<circle cx="12" cy="10" r="3"></circle>
+	</svg>
+}
+
+templ Camera(width int, height int) {
+	<svg width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M8.46449 2.33325H7.53489C7.05849 2.33325 6.82029 2.33325 6.60667 2.40792C6.47621 2.45351 6.35364 2.51911 6.24334 2.60237C6.06271 2.73869 5.93059 2.93688 5.66634 3.33325C5.53101 3.53627 5.33151 3.8355 5.252 3.91906C5.05498 4.1261 4.79664 4.26436 4.51508 4.31345C4.40145 4.33325 4.27945 4.33325 4.03547 4.33325C3.38208 4.33325 3.05539 4.33325 2.78827 4.40887C2.12005 4.59803 1.59778 5.12029 1.40862 5.78851C1.33301 6.05563 1.33301 6.38233 1.33301 7.03572V9.66658C1.33301 11.5522 1.33301 12.495 1.91879 13.0808C2.50458 13.6666 3.44739 13.6666 5.33301 13.6666H10.6664C12.552 13.6666 13.4948 13.6666 14.0806 13.0808C14.6664 12.495 14.6664 11.5522 14.6664 9.66658V7.03572C14.6664 6.38233 14.6664 6.05563 14.5908 5.78851C14.4016 5.12029 13.8793 4.59803 13.2111 4.40887C12.944 4.33325 12.6173 4.33325 11.9639 4.33325C11.7199 4.33325 11.5979 4.33325 11.4843 4.31345C11.2027 4.26436 10.9444 4.1261 10.7474 3.91906C10.6678 3.83549 10.4684 3.53626 10.333 3.33325C10.0688 2.93688 9.93662 2.73869 9.75602 2.60237C9.64569 2.51911 9.52315 2.45351 9.39269 2.40792C9.17909 2.33325 8.94089 2.33325 8.46449 2.33325Z" stroke="#B3B3B3" stroke-linecap="round" stroke-linejoin="round"></path>
+		<path d="M10.6664 8.66667C10.6664 10.1394 9.47242 11.3333 7.99969 11.3333C6.52691 11.3333 5.33301 10.1394 5.33301 8.66667C5.33301 7.19393 6.52691 6 7.99969 6C9.47242 6 10.6664 7.19393 10.6664 8.66667Z" stroke="#B3B3B3" stroke-linecap="round" stroke-linejoin="round"></path>
+		<path d="M12.75 6.33341H12.6667M12.8333 6.33341C12.8333 6.42546 12.7587 6.50008 12.6667 6.50008C12.5746 6.50008 12.5 6.42546 12.5 6.33341C12.5 6.24137 12.5746 6.16675 12.6667 6.16675C12.7587 6.16675 12.8333 6.24137 12.8333 6.33341Z" stroke="#B3B3B3" stroke-linecap="round"></path>
+	</svg>
+}
+
+templ DiscordFull(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+		<path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"></path>
+	</svg>
+}
+
+templ YouTubeFull(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+		<path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"></path>
+	</svg>
+}
+
+templ TwitterFull(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+		<path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"></path>
+	</svg>
+}
+
+templ TwitchFull(width int, height int) {
+	<svg xmlns="http://www.w3.org/2000/svg" width={ fmt.Sprint(width) } height={ fmt.Sprint(height) } fill="currentColor" class="bi bi-twitch" viewBox="0 0 16 16">
+		<path d="M3.857 0 1 2.857v10.286h3.429V16l2.857-2.857H9.57L14.714 8V0zm9.714 7.429-2.285 2.285H9l-2 2v-2H4.429V1.143h9.142z"></path>
+		<path d="M11.857 3.143h-1.143V6.57h1.143zm-3.143 0H7.571V6.57h1.143z"></path>
 	</svg>
 }

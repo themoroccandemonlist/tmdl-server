@@ -15,6 +15,25 @@
     }
 }
 
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #CCCCCC33 transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #CCCCCC33;
+    border-radius: 9999px;
+}
+
 /* barlow-100 - latin */
 @font-face {
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
